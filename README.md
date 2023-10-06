@@ -22,14 +22,12 @@
 - HTML
 - CSS
 - JavaScript
+- React
 - Node.js
 - Express.js
-- MySQL2
-- Sequelize.js
+- MongoDB
+- Mongoose ODM
 - npm
-- [dotenv](https://www.npmjs.com/package/dotenv)
-- [bcrypt](https://www.npmjs.com/package/bcrypt)
-- [Handlebars.js](https://handlebarsjs.com/)
 - Heroku
 
 ## Future Development
