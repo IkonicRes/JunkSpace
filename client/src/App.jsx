@@ -1,12 +1,11 @@
-// src/App.jsx
 import React from 'react';
-import HomePage from './components/HomePage';
+import './App.css'; // Import your CSS file if needed
+import CesiumMap from './components/HomePage'; // Import your CesiumMap component
 
-function App({ tab }) {
+function App() {
   return (
-    <div>
-      {tab === 'home' && <HomePage />}
-      {/* Add logic for other tabs here */}
+    <div className="App">
+      <CesiumMap />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 
 const apiKey = 'EM9JB4-VFQV6Y-62PKQS-54VO';
 
-const satelliteId = 25544;
+const satelliteId = 25000;
 
 // Function to fetch ISS position
 async function fetchISSPosition() {
@@ -17,7 +17,7 @@ async function fetchISSPosition() {
     if (data.positions.length > 0) {
       const issPosition = data.positions[0];
       const { satlatitude, satlongitude } = issPosition;
-
+      console.log(data)
       console.log(`ISS Latitude: ${satlatitude}`);
       console.log(`ISS Longitude: ${satlongitude}`);
     } else {
