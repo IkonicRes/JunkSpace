@@ -5,9 +5,9 @@ const typeDefs = `#graphql
         id: ID!
         name: String!
         description: String
-        currentLocation: Location!
+        currentLocation: [Location]!
         trajectory: String
-        owner: User!
+        owner: [User]!
 }
 
     type Location {
@@ -20,9 +20,9 @@ const typeDefs = `#graphql
         id: ID!
         name: String!
         purpose: String
-        launchDate: Date!
-        owner: User!
-        currentLocation: Location!
+        launchDate: String!
+        owner: [User]!
+        currentLocation: [Location]!
 }
 
     type User {
@@ -31,7 +31,7 @@ const typeDefs = `#graphql
         email: String!
         fullName: String
         password: String
-        dateOfBirth: Date
+        dateOfBirth: String
         createdSpaceDebris: [SpaceDebris]!
         createdSatellites: [Satellite]!
 }
@@ -39,7 +39,7 @@ const typeDefs = `#graphql
     input SpaceDebrisInput {
         name: String!
         description: String
-        currentLocation: LocationInput!
+        currentLocation: [Location]!
         trajectory: String
         ownerId: ID!
 }
@@ -47,16 +47,16 @@ const typeDefs = `#graphql
     input SatelliteInput {
         name: String!
         purpose: String
-        launchDate: Date!
+        launchDate: String!
         ownerId: ID!
-        currentLocation: LocationInput!
+        currentLocation: [Location]!
 }
     input UserInput {
         username: String!
         email: String!
         password: String!
         fullName: String
-        dateOfBirth: Date
+        dateOfBirth: String
 }
 
     type Query {

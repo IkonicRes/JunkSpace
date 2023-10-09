@@ -1,12 +1,10 @@
 // Import Mongoose model for SpaceDebris
-const SpaceDebris = require('./models/SpaceDebris');
-const Satellite = require('./models/Satellite');
-const User = require('./models/User');
+const { SpaceDebris, Satellite, User } = require('../models');
 // Import bcrypt for password hashing
 const bcrypt = require('bcrypt');
 // Import jsonwebtoken for generating tokens
 const jwt = require('jsonwebtoken');
-const { signToken, AuthenticationError } = require('apollo-server-express');
+const { signToken, AuthenticationError } = require('@apollo/server');
 
 const resolvers = {
     Query: {

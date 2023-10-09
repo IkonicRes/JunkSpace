@@ -4,19 +4,9 @@ const { ApolloServer } = require("@apollo/server");
 const bodyParser = require("body-parser");
 const { expressMiddleware } = require("@apollo/server/express4");
 const db = require("./config/connection");
-const typeDefs = require("./schemas/typeDefs");
+const { typeDefs, resolvers } = require("./schemas");
+const { authMiddleware } = require('./utils/auth');
 
-const typeDefs = `
-  type Query {
-    hello: String
-  }
-`;
-
-const resolvers = {
-  Query: {
-    hello: () => "Hello, world!",
-  },
-};
 // Create an instance of Apollo Server
 const server = new ApolloServer({
   typeDefs,
@@ -38,9 +28,10 @@ const startServer = async () => {
     expressMiddleware(server, {
       context: async ({ req }) => ({
         token: req.headers.token,
-      }),
+      }), 
     })
   );
+  // context: authMiddleware
 
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
