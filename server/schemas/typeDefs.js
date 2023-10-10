@@ -9,7 +9,6 @@ const typeDefs = `#graphql
         trajectory: String
         owner: [User]!
 }
-
     type Location {
         latitude: Float!
         longitude: Float!
@@ -36,10 +35,15 @@ const typeDefs = `#graphql
         createdSatellites: [Satellite]!
 }
 
+    input LocationInput {
+        latitude: Float!
+        longitude: Float!
+        altitude: Float!
+}
     input SpaceDebrisInput {
         name: String!
         description: String
-        currentLocation: [Location]!
+        currentLocation: LocationInput!
         trajectory: String
         ownerId: ID!
 }
@@ -49,7 +53,7 @@ const typeDefs = `#graphql
         purpose: String
         launchDate: String!
         ownerId: ID!
-        currentLocation: [Location]!
+        currentLocation: LocationInput!
 }
     input UserInput {
         username: String!
