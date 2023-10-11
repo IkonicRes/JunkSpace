@@ -1,3 +1,4 @@
+
 const express = require('express');
 const cors = require('cors');
 const { ApolloServer } = require('@apollo/server');
@@ -7,20 +8,15 @@ const db = require('./config/connection');
 const fetch = require('node-fetch'); // Import node-fetch
 const path = require('path'); // Import path module
 const PORT = process.env.PORT || 4001;
+const { typeDefs, resolvers } = require("./schemas");
+const { authMiddleware } = require('./utils/auth');
 
-const typeDefs = `
-  type Query {
-    hello: String
-  }
-`;
+// Create an instance of Apollo Server
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
 
-const resolvers = {
-  Query: {
-    hello: () => 'Hello, world!',
-  },
-};
-
-const server = new ApolloServer({ typeDefs, resolvers });
 
 const app = express();
 
@@ -39,6 +35,7 @@ const startServer = async () => {
       const response = await fetch(`https://www.space-track.org/basicspacedata/query/class/tle/NORAD_CAT_ID/${noradCatId}/limit/1/format/json/`);
       const data = await response.json();
 
+
       // Send the response data back to the frontend
       res.json(data);
     } catch (error) {
@@ -47,15 +44,16 @@ const startServer = async () => {
     }
   });
 
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
 
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../client/dist")));
+
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "../client/dist/index.html"));
     });
   }
 
-  db.once('open', () => {
+  db.once("open", () => {
     app.listen(PORT, () => {
       console.log(`Server is running at http://localhost:${PORT}`);
       console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);

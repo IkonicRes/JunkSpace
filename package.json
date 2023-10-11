@@ -20,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "@vitejs/plugin-react": "^4.1.0",
+    "bcrypt": "^5.1.1",
     "concurrently": "^8.2.1",
     "mongoose": "^7.6.0",
     "react": "^18.2.0",
