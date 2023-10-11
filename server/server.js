@@ -30,7 +30,7 @@ const startServer = async () => {
   app.use(express.json());
   
   app.use('/graphql', expressMiddleware(server));
-
+  app.use(cors())
   // Define a route for your proxy
   app.get('/space-track/:noradCatId', async (req, res) => {
     const { noradCatId } = req.params;
