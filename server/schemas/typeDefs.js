@@ -1,89 +1,143 @@
 
 
 const typeDefs = `#graphql
-    type SpaceDebris {
-        id: ID!
-        name: String!
-        description: String
-        currentLocation: [Location]!
-        trajectory: String
-        owner: [User]!
-}
-    type Location {
-        latitude: Float!
-        longitude: Float!
-        altitude: Float!
-}
+        type SpaceDebris {
+            id: ID!
+            name: String!
+            description: String
+            currentLocation: [Location]!
+            trajectory: String
+            owner: [User]!
+    }
+        type Location {
+            latitude: Float!
+            longitude: Float!
+            altitude: Float!
+    }
 
-    type Satellite {
-        id: ID!
-        name: String!
-        purpose: String
-        launchDate: String!
-        owner: [User]!
-        currentLocation: [Location]!
-}
+        type Satellite {
+            id: ID!
+            COMMENT: String
+            ORIGINATOR: String
+            NORAD_CAT_ID: String
+            OBJECT_NAME: String
+            OBJECT_TYPE: String
+            CLASSIFICATION_TYPE: String
+            INTLDES: String
+            EPOCH: String
+            EPOCH_MICROSECONDS: String
+            MEAN_MOTION: String
+            ECCENTRICITY: String
+            INCLINATION: String
+            RA_OF_ASC_NODE: String
+            ARG_OF_PERICENTER: String
+            MEAN_ANOMALY: String
+            EPHEMERIS_TYPE: String
+            ELEMENT_SET_NO: String
+            REV_AT_EPOCH: String
+            BSTAR: String
+            MEAN_MOTION_DOT: String
+            MEAN_MOTION_DDOT: String
+            FILE: String
+            TLE_LINE0: String
+            TLE_LINE1: String
+            TLE_LINE2: String
+            OBJECT_ID: String
+            OBJECT_NUMBER: String
+            SEMIMAJOR_AXIS: String
+            PERIOD: String
+            APOGEE: String
+            PERIGEE: String
+            DECAYED: String
+    }
 
-    type User {
-        id: ID!
-        username: String!
-        email: String!
-        fullName: String
-        password: String
-        dateOfBirth: String
-        createdSpaceDebris: [SpaceDebris]!
-        createdSatellites: [Satellite]!
-}
 
-    input LocationInput {
-        latitude: Float!
-        longitude: Float!
-        altitude: Float!
-}
-    input SpaceDebrisInput {
-        name: String!
-        description: String
-        currentLocation: LocationInput!
-        trajectory: String
-        ownerId: ID!
-}
+        type User {
+            id: ID!
+            username: String!
+            email: String!
+            fullName: String
+            password: String
+            dateOfBirth: String
+        }
+
+        input LocationInput {
+            latitude: Float!
+            longitude: Float!
+            altitude: Float!
+    }
+        input SpaceDebrisInput {
+            name: String!
+            description: String
+            currentLocation: LocationInput!
+            trajectory: String
+            ownerId: ID!
+    }
 
     input SatelliteInput {
-        name: String!
-        purpose: String
-        launchDate: String!
-        ownerId: ID!
-        currentLocation: LocationInput!
-}
-    input UserInput {
-        username: String!
-        email: String!
-        password: String!
-        fullName: String
-        dateOfBirth: String
-}
+        COMMENT: String
+        ORIGINATOR: String
+        NORAD_CAT_ID: String
+        OBJECT_NAME: String
+        OBJECT_TYPE: String
+        CLASSIFICATION_TYPE: String
+        INTLDES: String
+        EPOCH: String
+        EPOCH_MICROSECONDS: String
+        MEAN_MOTION: String
+        ECCENTRICITY: String
+        INCLINATION: String
+        RA_OF_ASC_NODE: String
+        ARG_OF_PERICENTER: String
+        MEAN_ANOMALY: String
+        EPHEMERIS_TYPE: String
+        ELEMENT_SET_NO: String
+        REV_AT_EPOCH: String
+        BSTAR: String
+        MEAN_MOTION_DOT: String
+        MEAN_MOTION_DDOT: String
+        FILE: String
+        TLE_LINE0: String
+        TLE_LINE1: String
+        TLE_LINE2: String
+        OBJECT_ID: String
+        OBJECT_NUMBER: String
+        SEMIMAJOR_AXIS: String
+        PERIOD: String
+        APOGEE: String
+        PERIGEE: String
+        DECAYED: String
+    }
 
-    type Query {
-        spaceDebris(id: ID!): SpaceDebris
-        allSpaceDebris: [SpaceDebris]!
-        satellite(id: ID!): Satellite
-        allSatellites: [Satellite]!
-        user(id: ID!): User
-        currentUser: User
-}
+        input UserInput {
+            username: String!
+            email: String!
+            password: String!
+            fullName: String
+            dateOfBirth: String
+    }
 
-    type Mutation {
-        createSpaceDebris(input: SpaceDebrisInput!): SpaceDebris
-        updateSpaceDebris(id: ID!, input: SpaceDebrisInput!): SpaceDebris
-        deleteSpaceDebris(id: ID!): ID
-        createSatellite(input: SatelliteInput!): Satellite
-        updateSatellite(id: ID!, input: SatelliteInput!): Satellite
-        deleteSatellite(id: ID!): ID
-        registerUser(input: UserInput!): User
-        loginUser(email: String!, password: String!): User
-        logoutUser: Boolean
+        type Query {
+            spaceDebris(id: ID!): SpaceDebris
+            allSpaceDebris: [SpaceDebris]!
+            satellite(id: ID!): Satellite
+            allSatellites: [Satellite]!
+            user(id: ID!): User
+            currentUser: User
+    }
 
-}
+        type Mutation {
+            createSpaceDebris(input: SpaceDebrisInput!): SpaceDebris
+            updateSpaceDebris(id: ID!, input: SpaceDebrisInput!): SpaceDebris
+            deleteSpaceDebris(id: ID!): ID
+            createSatellite(input: SatelliteInput!): Satellite
+            updateSatellite(id: ID!,  ): Satellite
+            deleteSatellite(id: ID!): ID
+            registerUser(username: String!, email: String!, fullName: String, password: String, dateOfBirth: String): User
+            loginUser(email: String!, password: String!): User
+            logoutUser: Boolean
+
+    }
 `;
 
 module.exports = typeDefs;

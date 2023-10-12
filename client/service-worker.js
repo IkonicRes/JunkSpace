@@ -38,18 +38,17 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-export function registerServiceWorker() {
+export async function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-      .register('/service-worker.js')
-      .then(function (registration) {
-        console.log('Service Worker registered with scope:', registration.scope);
-      })
-      .catch(function (error) {
-        console.error('Service Worker registration failed:', error);
-      });
+    try {
+      const registration = await navigator.serviceWorker.register('/service-worker.js');
+      console.log('Service Worker registered with scope:', registration.scope);
+    } catch (error) {
+      console.error('Service Worker registration failed:', error);
+    }
   }
 }
+
 
 export function unregisterServiceWorkers() {
   if ('serviceWorker' in navigator) {
