@@ -18,12 +18,12 @@ import {
 } from "satellite.js";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 import "cesium/Build/Cesium/Cesium";
-import Skybox_back from "../assets/SkyBoxBK.png";
-import Skybox_bottom from "../assets/SkyBoxDN.png";
-import Skybox_front from "../assets/SkyBoxFT.png";
-import Skybox_left from "../assets/SkyBoxLF.png";
-import Skybox_right from "../assets/SkyBoxRT.png";
-import Skybox_top from "../assets/SkyBoxUP.png";
+import Skybox_back from "/assets/SkyBoxBK.png";
+import Skybox_bottom from "/assets/SkyBoxDN.png";
+import Skybox_front from "/assets/SkyBoxFT.png";
+import Skybox_left from "/assets/SkyBoxLF.png";
+import Skybox_right from "/assets/SkyBoxRT.png";
+import Skybox_top from "/assets/SkyBoxUP.png";
 import axios from "axios";
 // import SatelliteEntity from './SatelliteEntity';
 
