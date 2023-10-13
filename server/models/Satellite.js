@@ -48,7 +48,7 @@ const satelliteSchema = new Schema({
         longitude: Number,
         altitude: Number,
       },
-    ],
+    ]    
   });
 
 const Satellite = model('Satellite', satelliteSchema);

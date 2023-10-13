@@ -11,8 +11,10 @@ const db = require('./config/connection');
 const path = require('path'); // Import path module
 const PORT = process.env.PORT || 4001;
 const { typeDefs, resolvers } = require("./schemas");
+const { Satellite } = require('./models')
 const { authMiddleware } = require('./utils/auth');
 const {createSatellite} = require('./schemas/typeDefs')
+require('dotenv').config()
 
 // Create an instance of Apollo Server
 const server = new ApolloServer({
@@ -57,9 +59,7 @@ const startServer = async () => {
   
     return `${spaceTrackBaseUrl}/${query}`;
   }
-
-  function querySpaceTrack(objectId) {
-    return new Promise(async (resolve, reject) => {
+  async function querySpaceTrack(objectId) {
       try {
         // NEVER share your spacetrack user / password with anyone!!
         // So, especially don't put them in source code.
@@ -72,48 +72,39 @@ const startServer = async () => {
         const postData = {
           identity: user,
           password: password,
-          query: queryUrl,
+          query: queryUrl
         };
-  
+
         // Space-Track.Org auth API URL
-        const queryURL = 'https://www.space-track.org/ajaxauth/login';
+        const loginURL = 'https://www.space-track.org/ajaxauth/login/';
   
         // Send the POST request to Space-Track.org with the user/pwd/query as post data
-        const response = await axios.post(queryURL, postData);
-        
+        const response = await axios.post(loginURL, postData);
+
+        const newSat = await Satellite.create(response.data)
+        console.log(newSat, response.data)
         // Check the response status and resolve with data or reject with an error
-        if (response.status === 200) {
-          // console.log('POST Success: ' + JSON.stringify(response.data).substring(0, 255));
-          resolve(response.data);
-        } else {
-          console.log('POST Error: ' + response.statusText);
-          reject(response.statusText);
-        }
+        return newSat
       } catch (error) {
-        // console.error('Error:', error);
-        reject(error);
+        console.error('Error:', error);
+        response.status(500).json(error);
       }
-    });
-  }
-  const curFetchCount = 25544
+    };
+  
+  var curFetchCount = 25545
   const fetchAndAddSatellites = async () => {
     try {
-      if(curFetchCount == 25574){
+      var exists = Satellite.find({"NORAD_CAT_ID": curFetchCount})
+      if(curFetchCount == 25545){
         return
       }
-      // Fetch satellite data from space-track.org API
-      const response = await querySpaceTrack(curFetchCount)
-      const satelliteData = await response.json();
-  
-      // Use your mutation helper function to add the data to your server
-      await createSatellite(satelliteData);
-  
-      console.log('Satellite data fetched and added to the server.');
+      const satelliteData = await querySpaceTrack(curFetchCount);
+      curFetchCount++
     } catch (error) {
       console.error('Error fetching or adding satellite data:', error);
     }
   };
-  const interval = 2000;
+  const interval = 3000;
   setInterval(fetchAndAddSatellites, interval);
 
   if (process.env.NODE_ENV === "production") {
