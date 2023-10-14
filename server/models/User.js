@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const bcrypt = require('bcrypt')
 
 const userSchema = new Schema({
     username: {
@@ -21,18 +22,6 @@ const userSchema = new Schema({
     dateOfBirth: {
         type: Date
     },
-    createdSpaceDebris: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'SpaceDebris',
-          },
-    ],
-    createdSatellites: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Satellite',
-          }, 
-    ]
 });  
 
 userSchema.pre('save', async function (next) {

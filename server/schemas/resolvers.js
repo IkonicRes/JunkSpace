@@ -105,12 +105,13 @@ const resolvers = {
                 throw new Error(`Error deleting satellite: ${error.message}`);
             }
         },
-        registerUser: async (_, { input }) => {
+        registerUser: async (_, { username, email, fullName, password, dateOfBirth }) => {
             try {
-                const newUser = new User(input);
+                const newUser = new User({ username, email, fullName, password, dateOfBirth });
                 await newUser.save();
                 return newUser;
             } catch (error) {
+                console.log(error)
                 throw new Error(`Error registering user: ${error.message}`);
             }
         },
