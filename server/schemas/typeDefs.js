@@ -1,6 +1,11 @@
 
 
 const typeDefs = `#graphql
+        type PaymentIntent {
+            clientSecret: String!
+            # You can add more fields as needed
+        }
+
         type SpaceDebris {
             id: ID!
             name: String!
@@ -17,6 +22,8 @@ const typeDefs = `#graphql
 
         type Satellite {
             id: ID!
+            OWNER: ID!
+            PRICE: Float!
             COMMENT: String
             ORIGINATOR: String
             NORAD_CAT_ID: String
@@ -75,6 +82,8 @@ const typeDefs = `#graphql
     }
 
     input SatelliteInput {
+        OWNER: ID!
+        PRICE: Float!
         COMMENT: String
         ORIGINATOR: String
         NORAD_CAT_ID: String
@@ -118,6 +127,7 @@ const typeDefs = `#graphql
     }
 
         type Query {
+            getPaymentIntent(amount: Int!, currency: String!): PaymentIntent!
             spaceDebris(id: ID!): SpaceDebris
             allSpaceDebris: [SpaceDebris]!
             satellite(id: ID!): Satellite
@@ -127,11 +137,12 @@ const typeDefs = `#graphql
     }
 
         type Mutation {
+            # processPayment(paymentIntentId: String!, paymentMethod: String!): Boolean!
             createSpaceDebris(input: SpaceDebrisInput!): SpaceDebris
             updateSpaceDebris(id: ID!, input: SpaceDebrisInput!): SpaceDebris
             deleteSpaceDebris(id: ID!): ID
             createSatellite(input: SatelliteInput!): Satellite
-            updateSatellite(id: ID!,  ): Satellite
+            updateSatellite(id: ID!, ownerID: ID): Satellite
             deleteSatellite(id: ID!): ID
             registerUser(username: String!, email: String!, fullName: String, password: String, dateOfBirth: String): User
             loginUser(email: String!, password: String!): User

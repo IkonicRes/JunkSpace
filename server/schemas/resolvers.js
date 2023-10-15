@@ -5,9 +5,24 @@ const bcrypt = require('bcrypt');
 // Import jsonwebtoken for generating tokens
 const jwt = require('jsonwebtoken');
 const { signToken, AuthenticationError } = require('@apollo/server');
+const stripe = require('stripe')('sk_test_51O1KL4FFJxtNyW2Yjpf8OcEur0Apd2VVt2rLyGOjB3WWeMbx6NgbxuOcOXJSjp83SLOmgwE6Nh6v4mxPbYMkhwJl00rbQb24O6');
 
 const resolvers = {
     Query: {
+        getPaymentIntent: async (_, {amount, currency}) => {
+            try {
+                const paymentIntent = await stripe.paymentIntents.create({
+                    amount,
+                    currency
+                })
+                return {
+                    clientSecret: paymentIntent.client_secret
+                }
+            }
+            catch {
+                throw new Error(`Failed to create PaymentIntent: ${error.message}`)
+            }
+        },
         spaceDebris: async (_, { id }) => {
             try {
                 return await SpaceDebris.findById(id);
