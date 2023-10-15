@@ -1,16 +1,31 @@
-import { Component } from 'react';
-import { Cartesian3, createOsmBuildingsAsync, Ion, JulianDate, Terrain, Viewer, SkyBox } from 'cesium';
+import { Component } from "react";
+import {
+  Cartesian3,
+  createOsmBuildingsAsync,
+  Ion,
+  JulianDate,
+  Terrain,
+  Viewer,
+  SkyBox,
+} from "cesium";
 
-// import { twoline2satrec, propagate, gstime, eciToGeodetic, degreesLat, degreesLong } from 'satellite.js';
-import { GET_SPACE_DEBRIS } from '../utils/queries';
-import { ApolloConsumer } from '@apollo/client';
-import Skybox_back from '/assets/SkyBoxBK.png'
-import Skybox_bottom from'/assets/SkyBoxDN.png'
-import Skybox_front from '/assets/SkyBoxFT.png'
-import Skybox_left from '/assets/SkyBoxLF.png'
-import Skybox_right from '/assets/SkyBoxRT.png'
-import Skybox_top from '/assets/SkyBoxUP.png'
-import axios from 'axios';
+import {
+  twoline2satrec,
+  propagate,
+  gstime,
+  eciToGeodetic,
+  degreesLat,
+  degreesLong,
+} from "satellite.js";
+import { GET_SPACE_DEBRIS } from "../utils/queries";
+import { ApolloConsumer } from "@apollo/client";
+import Skybox_back from "/assets/SkyBoxBK.png";
+import Skybox_bottom from "/assets/SkyBoxDN.png";
+import Skybox_front from "/assets/SkyBoxFT.png";
+import Skybox_left from "/assets/SkyBoxLF.png";
+import Skybox_right from "/assets/SkyBoxRT.png";
+import Skybox_top from "/assets/SkyBoxUP.png";
+import axios from "axios";
 
 class CesiumMap extends Component {
   async componentDidMount() {
@@ -81,8 +96,9 @@ class CesiumMap extends Component {
     // Make HTTP requests to fetch TLE data and create satellite entities
     const fetchTLEDataAndCreateSatellites = async () => {
       for (var noradCatId = 25514; noradCatId <= 25544; noradCatId++) {
+        console.log("before response");
         const response = await axios.get(`/space-track/${noradCatId}`);
-        console.log('response')
+        console.log("response");
         const data = response.data[0];
         const currentTime = JulianDate.now();
         const satellitePosition = computeSatellitePosition(data, currentTime);
@@ -90,7 +106,7 @@ class CesiumMap extends Component {
         viewer.entities.add({
           name: `Satellite ${noradCatId}`,
           model: {
-            uri: "../assets/sat.fbx",
+            uri: "/assets/satellite.glb",
             scale: (2 * data.SEMIMAJOR_AXIS) / referenceSemimajorAxis,
           },
           position: satellitePosition,
