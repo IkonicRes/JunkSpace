@@ -79,9 +79,7 @@ const typeDefs = `#graphql
             id: ID!
             username: String!
             email: String!
-            fullName: String
-            password: String
-            dateOfBirth: String
+            password: String!
         }
 
         input LocationInput {
@@ -139,8 +137,6 @@ const typeDefs = `#graphql
             username: String!
             email: String!
             password: String!
-            fullName: String
-            dateOfBirth: String
         }
 
         input PaymentIntentInput {
@@ -170,7 +166,7 @@ const typeDefs = `#graphql
             createSatellite(input: SatelliteInput!): Satellite
             updateSatellite(id: ID!, ownerID: ID): Satellite
             deleteSatellite(id: ID!): ID
-            registerUser(username: String!, email: String!, fullName: String, password: String, dateOfBirth: String): User
+            registerUser(username: String!, email: String!, password: String): User
             loginUser(email: String!, password: String!): User
             logoutUser: Boolean
 

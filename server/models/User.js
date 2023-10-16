@@ -19,9 +19,6 @@ const userSchema = new Schema({
         required: true,
         minlength: 5,
     },
-    dateOfBirth: {
-        type: Date
-    },
 });  
 
 userSchema.pre('save', async function (next) {
