@@ -17,8 +17,7 @@ const typeDefs = `#graphql
             brand: String! #Payment method brand (e.g., Visa, MasterCard)
             last4: String!
         }
-
-
+        
         type SpaceDebris {
             id: ID!
             name: String!

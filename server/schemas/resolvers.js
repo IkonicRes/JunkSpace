@@ -9,7 +9,7 @@ const stripe = require('stripe')('sk_test_51O1KL4FFJxtNyW2Yjpf8OcEur0Apd2VVt2rLy
 
 const resolvers = {
     Query: {
-        getPaymentIntent: async (_, { amount, currency }) => {
+        getPaymentIntent: async (_, {amount, currency}) => {
             try {
                 const paymentIntent = await stripe.paymentIntents.create({
                     amount,
