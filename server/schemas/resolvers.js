@@ -1,5 +1,5 @@
 // Import Mongoose model for SpaceDebris
-const { SpaceDebris, Satellite, User } = require('../models');
+const { PaymentIntent, SpaceDebris, Satellite, User } = require('../models');
 // Import bcrypt for password hashing
 const bcrypt = require('bcrypt');
 // Import jsonwebtoken for generating tokens
@@ -72,6 +72,17 @@ const resolvers = {
     },
 
     Mutation: {
+
+        createPaymentIntent: async (_, { input }) => {
+            try {
+                const newPaymentIntent = new PaymentIntent(input);
+                await newPaymentIntent.save();
+                return newPaymentIntent;
+            } catch (error) {
+                throw new Error(`Error creating PaymentIntent: ${error.message}`);
+            }
+        },
+
         createSpaceDebris: async (_, { input }) => {
             try {
                 const newSpaceDebris = new SpaceDebris(input);

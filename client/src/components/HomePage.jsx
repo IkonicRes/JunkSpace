@@ -10,27 +10,10 @@ import Skybox_right from '/assets/SkyBoxRT.png'
 import Skybox_top from '/assets/SkyBoxUP.png'
 
 class CesiumMap extends Component {
-  // async fetchSpaceDebrisData() {
-  //   try {
-  //     console.log("client:", this.props.client)
-  //     const { data } = await this.props.client.query({
-  //       query: GET_SPACE_DEBRIS,
-  //       variables: { id: '25544' }, // Provide the appropriate variables
-  //     });
-  
-  //     // Handle the data as needed
-  //     console.log('Space Debris Data:', data);
-  //   } catch (error) {
-  //     console.error('Error fetching space debris data:', error);
-  //   }
-  // }
-
   async componentDidMount() {
-
-    // this.fetchSpaceDebrisData();
-
     // Cesium Ion access token
-    Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmNTUzNTA4Yy01YTNiLTQ1ZDYtOTAzNi1jZjY0NTRlNjQyNTYiLCJpZCI6MTcwNjUxLCJpYXQiOjE2OTY3NzE4OTF9.H6QbhLHrhp_Culob6xtjd56owzBtTWgSDNoZHOWe7Fs';
+    Ion.defaultAccessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmNTUzNTA4Yy01YTNiLTQ1ZDYtOTAzNi1jZjY0NTRlNjQyNTYiLCJpZCI6MTcwNjUxLCJpYXQiOjE2OTY3NzE4OTF9.H6QbhLHrhp_Culob6xtjd56owzBtTWgSDNoZHOWe7Fs";
 
     // Initialize the Cesium Viewer in the component's DOM element
     const viewer = new Viewer(this.cesiumContainer, {
@@ -61,18 +44,18 @@ class CesiumMap extends Component {
         // negativeZ : FTex
         
         },
-        
+
         terrain: Terrain.fromWorldTerrain(),
-        })
+      }),
     });
 
     // const referenceSemimajorAxis = 0.5; // Replace with your value
 
     // Hide unnecessary Cesium controls
-    viewer.animation.container.style.visibility = 'hidden';
-    viewer.timeline.container.style.visibility = 'hidden';
-    viewer.fullscreenButton.container.style.visibility = 'hidden';
-    viewer.navigationHelpButton.container.style.visibility = 'hidden';
+    viewer.animation.container.style.visibility = "hidden";
+    viewer.timeline.container.style.visibility = "hidden";
+    viewer.fullscreenButton.container.style.visibility = "hidden";
+    viewer.navigationHelpButton.container.style.visibility = "hidden";
 
     // Configure camera settings
     viewer.scene.screenSpaceCameraController.enableTranslate = false;
@@ -94,7 +77,12 @@ class CesiumMap extends Component {
   }
 
   render() {
-    return <div ref={(element) => (this.cesiumContainer = element)} style={{ height: '100vh' }} />;
+    return (
+      <div
+        ref={(element) => (this.cesiumContainer = element)}
+        style={{ height: "100vh" }}
+      />
+    );
   }
 }
 
