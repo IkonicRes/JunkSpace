@@ -1,5 +1,10 @@
 import { gql } from '@apollo/client';
 
+// export const PROCESS_PAYMENT = gql`
+// mutation ProcessPayment($paymentIntentId: String!, $paymentMethod: String!) {
+//   processPayment(paymentIntentId: $paymentIntentId, paymentMethod: $paymentMethod)
+// }
+// `
 export const CREATE_SPACE_DEBRIS = gql`
   mutation CreateSpaceDebris($input: SpaceDebrisInput!) {
     createSpaceDebris(input: $input) {

@@ -1,5 +1,13 @@
 import { gql } from '@apollo/client';
 
+export const GET_PAYMENT_INTENT = gql`
+query GetPaymentIntent($amount: Int!, $currency: String!) {
+  getPaymentIntent(amount: $amount, currency: $currency) {
+    clientSecret
+  }
+}
+`;
+
 export const GET_SPACE_DEBRIS = gql`
   query GetSpaceDebris($id: ID!) {
     spaceDebris(id: $id) {
@@ -50,7 +58,6 @@ export const GET_USER = gql`
       id
       username
       email
-      # Other fields you need
     }
   }
 `;
