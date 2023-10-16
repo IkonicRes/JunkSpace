@@ -9,7 +9,7 @@ const db = require('./config/connection');
 const path = require('path'); // Import path module
 const PORT = process.env.PORT || 4001;
 const { typeDefs, resolvers } = require("./schemas");
-const { Satellite } = require('./models')
+const { Satellite } = require('./models');
 const { authMiddleware } = require('./utils/auth');
 const { createSatellite } = require('./schemas/typeDefs')
 require('dotenv').config()
@@ -17,7 +17,7 @@ require('dotenv').config()
 // Create an instance of Apollo Server
 const server = new ApolloServer({
   typeDefs,
-  resolvers,
+  resolvers
 });
 
 
@@ -56,21 +56,16 @@ const startServer = async () => {
     return `${spaceTrackBaseUrl}/${query}`;
   }
   async function querySpaceTrack(objectId) {
-    try {
-      // NEVER share your spacetrack user / password with anyone!!
-      // So, especially don't put them in source code.
-      // You can either pass them in as command line args, or better yet get them from
-      // environment variables.
-      const user = process.env.SPACETRACK_USER;
-      const password = process.env.SPACETRACK_PASSWORD;
-      const queryUrl = querySpaceTrackUrl(objectId);
-
-      const postData = {
-        identity: user,
-        password: password,
-        query: queryUrl
-      };
-
+      try {
+        const user = process.env.SPACETRACK_USER;
+        const password = process.env.SPACETRACK_PASSWORD;
+        const queryUrl = querySpaceTrackUrl(objectId);
+  
+        const postData = {
+          identity: user,
+          password: password,
+          query: queryUrl
+        };
       // Space-Track.Org auth API URL
       const loginURL = 'https://www.space-track.org/ajaxauth/login/';
 

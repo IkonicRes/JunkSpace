@@ -1,31 +1,16 @@
-import { Component } from "react";
-import {
-  Cartesian3,
-  createOsmBuildingsAsync,
-  Ion,
-  JulianDate,
-  Terrain,
-  Viewer,
-  SkyBox,
-} from "cesium";
-
-import {
-  twoline2satrec,
-  propagate,
-  gstime,
-  eciToGeodetic,
-  degreesLat,
-  degreesLong,
-} from "satellite.js";
-import { GET_SPACE_DEBRIS } from "../utils/queries";
-import { ApolloConsumer } from "@apollo/client";
-import Skybox_back from "/assets/SkyBoxBK.png";
-import Skybox_bottom from "/assets/SkyBoxDN.png";
-import Skybox_front from "/assets/SkyBoxFT.png";
-import Skybox_left from "/assets/SkyBoxLF.png";
-import Skybox_right from "/assets/SkyBoxRT.png";
-import Skybox_top from "/assets/SkyBoxUP.png";
-import axios from "axios";
+import { Component } from 'react';
+import { Cartesian3, createOsmBuildingsAsync, Ion, JulianDate, Terrain, Viewer, SkyBox } from 'cesium';
+import "cesium/Build/Cesium/Widgets/widgets.css";
+import { twoline2satrec, propagate, gstime, eciToGeodetic, degreesLat, degreesLong } from 'satellite.js';
+import { GET_SPACE_DEBRIS } from '../utils/queries';
+import { ApolloConsumer } from '@apollo/client';
+import Skybox_back from '/assets/SkyBoxBK.png'
+import Skybox_bottom from'/assets/SkyBoxDN.png'
+import Skybox_front from '/assets/SkyBoxFT.png'
+import Skybox_left from '/assets/SkyBoxLF.png'
+import Skybox_right from '/assets/SkyBoxRT.png'
+import Skybox_top from '/assets/SkyBoxUP.png'
+import axios from 'axios';
 
 class CesiumMap extends Component {
   async componentDidMount() {
@@ -35,26 +20,35 @@ class CesiumMap extends Component {
 
     // Initialize the Cesium Viewer in the component's DOM element
     const viewer = new Viewer(this.cesiumContainer, {
-      skyBox: new SkyBox({
-        sources: {
-          positiveX: Skybox_front,
+      skyBox : new SkyBox({
 
-          negativeX: Skybox_back,
-
-          positiveY: Skybox_right,
-
-          negativeY: Skybox_left,
-
-          positiveZ: Skybox_top,
-
-          negativeZ: Skybox_bottom,
+        sources : {
+        
+        // positiveX : Skybox_front,
+        positiveX : Skybox_front,
+        
+        negativeX : Skybox_back,
+        // negativeX : FTex,
+        
+        positiveY : Skybox_bottom,
+        // positiveY : FTex,
+        
+        negativeY : Skybox_top,
+        // negativeY : FTex,
+        
+        positiveZ : Skybox_left,
+        // positiveZ : FTex,
+        
+        negativeZ : Skybox_right
+        // negativeZ : FTex
+        
         },
 
         terrain: Terrain.fromWorldTerrain(),
       }),
     });
 
-    const referenceSemimajorAxis = 0.5; // Replace with your value
+    // const referenceSemimajorAxis = 0.5; // Replace with your value
 
     // Hide unnecessary Cesium controls
     viewer.animation.container.style.visibility = "hidden";
@@ -85,35 +79,33 @@ class CesiumMap extends Component {
       var latitude = degreesLat(positionGd.latitude);
       var longitude = degreesLong(positionGd.longitude);
       var altitude = positionGd.height;
-      var cartesianPosition = Cartesian3.fromDegrees(
-        longitude,
-        latitude,
-        altitude
-      );
+      var cartesianPosition = Cartesian3.fromDegrees(longitude, latitude, altitude);
       return cartesianPosition;
     }
 
     // Make HTTP requests to fetch TLE data and create satellite entities
     const fetchTLEDataAndCreateSatellites = async () => {
-      for (var noradCatId = 25514; noradCatId <= 25544; noradCatId++) {
-        console.log("before response");
-        const response = await axios.get(`/space-track/${noradCatId}`);
-        console.log("response");
+      // for (var noradCatId = 25514; noradCatId <= 25544; noradCatId++) {
+        try{
+        const response = await axios.get('https://www.space-track.org/basicspacedata/query/class/tle/NORAD_CAT_ID/25544/limit/1/');
         const data = response.data[0];
-        const currentTime = JulianDate.now();
-        const satellitePosition = computeSatellitePosition(data, currentTime);
-
-        viewer.entities.add({
-          name: `Satellite ${noradCatId}`,
+        // const currentTime = JulianDate.now();
+        const satellitePosition = Cartesian3.fromDegrees(0, 0, 15000000)
+        const testSat = viewer.entities.add({
+          name: `Satellite 25544`,
           model: {
-            uri: "/assets/satellite.glb",
+            uri: '../assets/sat.gltf',
             scale: (2 * data.SEMIMAJOR_AXIS) / referenceSemimajorAxis,
           },
           position: satellitePosition,
         });
+        // } 
+        viewer.trackedEntity = testSat;
       }
-    };
-
+      catch (err) {
+        console.log(err)
+      }
+      };
     fetchTLEDataAndCreateSatellites();
 
     // Add Cesium OSM Buildings, a global 3D buildings layer

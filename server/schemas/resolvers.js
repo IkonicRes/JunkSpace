@@ -1,13 +1,28 @@
 // Import Mongoose model for SpaceDebris
-const { SpaceDebris, Satellite, User } = require('../models');
+const { PaymentIntent, SpaceDebris, Satellite, User } = require('../models');
 // Import bcrypt for password hashing
 const bcrypt = require('bcrypt');
 // Import jsonwebtoken for generating tokens
 const jwt = require('jsonwebtoken');
 const { signToken, AuthenticationError } = require('@apollo/server');
+const stripe = require('stripe')('sk_test_51O1KL4FFJxtNyW2Yjpf8OcEur0Apd2VVt2rLyGOjB3WWeMbx6NgbxuOcOXJSjp83SLOmgwE6Nh6v4mxPbYMkhwJl00rbQb24O6');
 
 const resolvers = {
     Query: {
+        getPaymentIntent: async (_, { amount, currency }) => {
+            try {
+                const paymentIntent = await stripe.paymentIntents.create({
+                    amount,
+                    currency
+                })
+                return {
+                    clientSecret: paymentIntent.client_secret
+                }
+            }
+            catch {
+                throw new Error(`Failed to create PaymentIntent: ${error.message}`)
+            }
+        },
         spaceDebris: async (_, { id }) => {
             try {
                 return await SpaceDebris.findById(id);
@@ -57,6 +72,17 @@ const resolvers = {
     },
 
     Mutation: {
+
+        createPaymentIntent: async (_, { input }) => {
+            try {
+                const newPaymentIntent = new PaymentIntent(input);
+                await newPaymentIntent.save();
+                return newPaymentIntent;
+            } catch (error) {
+                throw new Error(`Error creating PaymentIntent: ${error.message}`);
+            }
+        },
+
         createSpaceDebris: async (_, { input }) => {
             try {
                 const newSpaceDebris = new SpaceDebris(input);
