@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import {createOsmBuildingsAsync, Ion, Terrain, Viewer, SkyBox, createWorldImageryAsync } from 'cesium';
+import {createOsmBuildingsAsync, Ion, Terrain, Viewer, SkyBox, createWorldImageryAsync, Cartesian3, CzmlDataSource } from 'cesium';
 // import "cesium/Build/Cesium/Widgets/widgets.css";
 // import { twoline2satrec, propagate, gstime, eciToGeodetic, degreesLat, degreesLong } from 'satellite.js';
 import Skybox_back from '/assets/SkyBoxBK.png'
@@ -8,6 +8,8 @@ import Skybox_front from '/assets/SkyBoxFT.png'
 import Skybox_left from '/assets/SkyBoxLF.png'
 import Skybox_right from '/assets/SkyBoxRT.png'
 import Skybox_top from '/assets/SkyBoxUP.png'
+
+const czmlFile = "http://localhost:4001/assets/temp.tle.czml"
 
 class CesiumMap extends Component {
   async componentDidMount() {
@@ -69,7 +71,17 @@ class CesiumMap extends Component {
     viewer.camera.defaultZoomAmount = 100000000000000.0;
     viewer.scene.screenSpaceCameraController.minimumZoomDistance = 17500000;
     viewer.scene.screenSpaceCameraController.maximumZoomDistance = 20000000 * 2;
-
+    const entity = viewer.entities.add({
+      position: Cartesian3.fromDegrees(-123.0744619, 44.0503706),
+      model: {
+        uri: "../../public/assets/sat.glb",
+      },
+      scale: 1000
+    });
+    viewer.trackedEntity = entity;
+    viewer.dataSources.add(
+      CzmlDataSource.load(czmlFile)
+    );
     // Add Cesium OSM Buildings, a global 3D buildings layer
     createOsmBuildingsAsync().then((buildingTileset) => {
       viewer.scene.primitives.add(buildingTileset);
