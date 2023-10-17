@@ -7,15 +7,36 @@
   text-align: center;
 }
 
+
+.cesium-map {
+  position: relative;
+}
+.product-card {
+  background-color: #0002284a;
+  margin: 1vw;
+  padding: 1vw;
+  border-radius: 15px;
+}
+.cartOverlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.541);
+  border-radius: 15px;
+  padding-bottom: 1vw;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
