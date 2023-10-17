@@ -6,9 +6,51 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { signToken, AuthenticationError } = require('@apollo/server');
 const stripe = require('stripe')('sk_test_51O1KL4FFJxtNyW2Yjpf8OcEur0Apd2VVt2rLyGOjB3WWeMbx6NgbxuOcOXJSjp83SLOmgwE6Nh6v4mxPbYMkhwJl00rbQb24O6');
+const tle2czml = require('tle2czml');
+const fs = require('fs');
+const tempTleFilePath = 'temp.tle';
+
 
 const resolvers = {
     Query: {
+        getTleTrajectory: async (_, { tle0, tle1, tle2 }) => {
+            // Use correct line break character "\n"
+            await fs.writeFileSync(tempTleFilePath, (tle0 + '\n' + tle1 + '\n' + tle2));
+            const result = tle2czml.getCoords(tempTleFilePath);
+            console.log(result)
+            // Remove the temporary file after use
+            fs.unlinkSync(tempTleFilePath);
+            return { position, orientation };
+          },
+          
+        getTleData: async (_, catId) => {
+            //Get the TLE from the associated NORAD ID
+            try {
+                catId = catId.catId
+                console.log(catId)
+                var satData = await Satellite.find({'NORAD_CAT_ID': catId})
+                console.log(satData[0])
+                satData = satData[0]
+                if (satData.length == 0){
+                    console.log('feck')
+                    return{
+                        NORAD_CAT_ID: catId,
+                        tle0: '',
+                        tle1: '',
+                        tle2: ''
+                    }
+                }
+                return {
+                    NORAD_CAT_ID: catId,
+                    tle0: satData.TLE_LINE0,
+                    tle1: satData.TLE_LINE1,
+                    tle2: satData.TLE_LINE2
+                }
+            } 
+            catch (error) {
+                throw new Error(`Failed to fetch TLEData from db: ${error.message}`)
+            }
+        },
         getPaymentIntent: async (_, {amount, currency}) => {
             try {
                 const paymentIntent = await stripe.paymentIntents.create({
@@ -118,11 +160,28 @@ const resolvers = {
         },
         updateSatellite: async (_, { id, input }) => {
             try {
-                return await Satellite.findByIdAndUpdate(id, input, { new: true });
+                // Find the satellite by its ID
+                const satellite = await Satellite.findById(id);
+                console.log(satellite)
+                // Check if the satellite exists
+                if (!satellite) {
+                    throw new Error('Satellite not found');
+                }
+        
+                // Update the owner field if it's either false or doesn't exist
+                if (satellite.owner === false || satellite.owner === undefined) {
+                    satellite.owner = input.ownerID;
+                }
+        
+                // Save the updated satellite
+                const updatedSatellite = await satellite.save();
+                console.log(updatedSatellite.owner)
+                return updatedSatellite;
             } catch (error) {
                 throw new Error(`Error updating satellite: ${error.message}`);
             }
         },
+        
         deleteSatellite: async (_, { id }) => {
             try {
                 await Satellite.findByIdAndDelete(id);

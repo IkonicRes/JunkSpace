@@ -23,6 +23,7 @@
     "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^9.0.2",
     "node-fetch": "^3.3.2",
-    "stripe": "^13.10.0"
+    "stripe": "^13.10.0",
+    "tle2czml": "^1.0.0"
   }
 }
