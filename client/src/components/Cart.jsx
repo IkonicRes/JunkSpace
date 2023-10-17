@@ -19,15 +19,17 @@ const Cart = ({ cartItems }) => {
 
   return (
     <div className="cartOverlay">
-      {cartItems.map(item => (
-      <ProductCard  
-        key={item.id}
+      {cartItems.map((item, index) => {
+        <ProductCard  
+        key={index}
         name={item.name}
         noradID={item.noradId}
         comment={item.comment}
         price={item.price}
       /> 
-    ))}
+
+      }
+    )}
 
       <p>Total: ${total}</p>
       <button>Checkout</button>

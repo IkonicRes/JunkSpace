@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import {createOsmBuildingsAsync, Ion, Terrain, Viewer, SkyBox, createWorldImageryAsync, Cartesian3, CzmlDataSource } from 'cesium';
+import {createOsmBuildingsAsync, Ion, Terrain, Viewer, SkyBox, createWorldImageryAsync, Cartesian3, CzmlDataSource, Model, Color, EntityCollection, Matrix4, Quaternion} from 'cesium';
 // import "cesium/Build/Cesium/Widgets/widgets.css";
 // import { twoline2satrec, propagate, gstime, eciToGeodetic, degreesLat, degreesLong } from 'satellite.js';
 import Skybox_back from '/assets/SkyBoxBK.png'
@@ -16,6 +16,20 @@ class CesiumMap extends Component {
     // Cesium Ion access token
     Ion.defaultAccessToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmNTUzNTA4Yy01YTNiLTQ1ZDYtOTAzNi1jZjY0NTRlNjQyNTYiLCJpZCI6MTcwNjUxLCJpYXQiOjE2OTY3NzE4OTF9.H6QbhLHrhp_Culob6xtjd56owzBtTWgSDNoZHOWe7Fs";
+
+     const model = await Model.fromGltfAsync({
+        url: `http://localhost:4000/assets/sat.glb`,
+        modelMatrix: Matrix4.fromTranslationQuaternionRotationScale(
+          new Cartesian3(-123, 44.0, 17500000.0), // translation
+          Quaternion.IDENTITY,           // rotation
+          new Cartesian3(100000, 100000, 100000), // scale
+        ),
+        minimumPixelSize: 64,
+        maximumScale: 1,
+        silhouetteColor: Color.GREENYELLOW,
+        silhouetteSize: 0,
+        //releaseGltfJson: false # If true, the json file will not be cached
+    })
 
     // Initialize the Cesium Viewer in the component's DOM element
     const viewer = new Viewer(this.cesiumContainer, {
@@ -69,19 +83,24 @@ class CesiumMap extends Component {
 
     // Set up camera zoom limits
     viewer.camera.defaultZoomAmount = 100000000000000.0;
-    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 17500000;
-    viewer.scene.screenSpaceCameraController.maximumZoomDistance = 20000000 * 2;
-    const entity = viewer.entities.add({
-      position: Cartesian3.fromDegrees(-123.0744619, 44.0503706),
-      model: {
-        uri: "../../public/assets/sat.glb",
-      },
-      scale: 1000
-    });
-    viewer.trackedEntity = entity;
-    viewer.dataSources.add(
-      CzmlDataSource.load(czmlFile)
+    // viewer.scene.screenSpaceCameraController.minimumZoomDistance = 17500000;
+    // viewer.scene.screenSpaceCameraController.maximumZoomDistance = 20000000 * 2;
+    // {
+    //   position: Cartesian3.fromDegrees(-123.0744619, 44.0503706),
+    //   model: {
+    //     uri: "../../public/assets/sat.glb",
+    //   },
+    //   scale: 1000
+    // }
+
+    const entity = viewer.scene.primitives.add(
+      model
     );
+    console.log("Viewer made")
+    // viewer.trackedEntity = entity;
+    // viewer.dataSources.add(
+    //   CzmlDataSource.load(czmlFile)
+    //   );
     // Add Cesium OSM Buildings, a global 3D buildings layer
     createOsmBuildingsAsync().then((buildingTileset) => {
       viewer.scene.primitives.add(buildingTileset);
