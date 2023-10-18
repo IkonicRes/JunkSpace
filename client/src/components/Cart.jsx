@@ -2,30 +2,31 @@
 
 import { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
-
-const Cart = ({ cartItems }) => {
+import { useCartContext } from '../utils/cartContext';
+const Cart = () => {
 
   const [total, setTotal] = useState(0);
-
+  const stuff = useCartContext()
   useEffect(() => {
     // Calculate total on mount/update  
     let newTotal = 0;
-    cartItems.forEach(item => {
-      newTotal += item.price; 
+    stuff.cart.forEach(product => {
+      newTotal += product.price; 
     });
 
     setTotal(newTotal);
-  }, [cartItems]);
+  }, [stuff.cart]);
 
   return (
     <div className="cartOverlay">
-      {cartItems.map((item, index) => {
+      {stuff.cart.map((product, index) => {
         <ProductCard  
         key={index}
-        name={item.name}
-        noradID={item.noradId}
-        comment={item.comment}
-        price={item.price}
+        name={product?.OBJECT_NAME}
+        noradID={product?.NORAD_CAT_ID}
+        comment={product?.COMMENT}
+        price={product?.price}
+        // >{product?.price}
       /> 
 
       }
