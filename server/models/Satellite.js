@@ -36,19 +36,17 @@ const satelliteSchema = new Schema({
     name: String,
     purpose: String,
     launchDate: Date,
-    owner: [
+    owner: 
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
       },
-    ],
-    currentLocation: [
+    currentLocation: 
       {
         latitude: Number,
         longitude: Number,
         altitude: Number,
-      },
-    ]    
+      },  
   });
 
 const Satellite = model('Satellite', satelliteSchema);

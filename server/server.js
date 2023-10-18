@@ -12,6 +12,9 @@ const { typeDefs, resolvers } = require("./schemas");
 const { Satellite } = require('./models');
 const { authMiddleware } = require('./utils/auth');
 const { createSatellite } = require('./schemas/typeDefs')
+const axios = require('axios');
+
+// const { PeliasGeocoderService } = require('cesium');
 require('dotenv').config()
 
 // Create an instance of Apollo Server
@@ -74,6 +77,7 @@ const startServer = async () => {
 
       const newSat = await Satellite.create(response.data)
       console.log(newSat, response.data)
+      newSat.owner = ''
       // Check the response status and resolve with data or reject with an error
       return newSat
     } catch (error) {
@@ -81,24 +85,28 @@ const startServer = async () => {
       response.status(500).json(error);
     }
   };
-
-  var curFetchCount = 25545
+  // resolvers.Query.getTleData("25544")
+  var curFetchCount = 25552
   const fetchAndAddSatellites = async () => {
     try {
-      var exists = Satellite.find({ "NORAD_CAT_ID": curFetchCount })
-      if (curFetchCount == 25545) {
-        return
+      var exists = Satellite.find({ "NORAD_CAT_ID": curFetchCount.toString() })
+      if (exists) {
+        console.log(`CatID ${curFetchCount} exists!`)
+        curFetchCount++
       }
+      else{
       const satelliteData = await querySpaceTrack(curFetchCount);
       curFetchCount++
+      }
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'An error occurred' });
     }
   };
-  const interval = 3000;
+  // const interval = 3000
+  const interval = 60 * 60 * 24 * 1000;
   setInterval(fetchAndAddSatellites, interval);
-
+  fetchAndAddSatellites()
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
 
