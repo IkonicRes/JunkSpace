@@ -1,4 +1,4 @@
-import { Component, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import {
   createOsmBuildingsAsync,
   Ion,
@@ -17,7 +17,8 @@ import {
   ScreenSpaceEventType,
   ScreenSpaceEventHandler,
   Math,
-  InfoBox
+  InfoBox,
+  Cartographic
 } from "cesium";
 // import "cesium/Build/Cesium/Widgets/widgets.css";
 import { propagate, gstime, eciToGeodetic, twoline2satrec } from 'satellite.js';
@@ -30,11 +31,11 @@ import Skybox_top from "/assets/SkyBoxUP.png";
 const czmlFile = "http://localhost:4001/assets/temp.tle.czml";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_SATELLITES } from "../utils/queries";
-import { useCartContext } from "../utils/cartContext";
+import { CartContext } from "../utils/cartContext";
 
-const CesiumMap = () => {
-  const cart = useCartContext();
+const CesiumMap = ({addToCart}) => {
   const ref = useRef();
+  const [cart, setCart] = useContext(CartContext);
   const { loading, error, data } = useQuery(GET_ALL_SATELLITES);
   // Cesium Ion access token
 
@@ -55,10 +56,10 @@ const CesiumMap = () => {
   // })
   const scaleFactor = 7;
   const findSatelliteById = (satellites, id) => {
-    for (const sat of satellites) {
-      console.log(sat)
+    console.log(typeof(satellites))
+    for (var i = 0; i < satellites.length; i++) {
+      var sat = satellites[i]
       if (sat.NORAD_CAT_ID == id) {
-        // sat.price = 1000
         return sat
       }
     }
@@ -67,68 +68,70 @@ const CesiumMap = () => {
   const createSatelliteModels = async (satelliteDataArray) => {
 
     const models = [];
-    var count = 0
     for (const sat of satelliteDataArray) {
-      count++
-      if (count > 3){
-        break
-      }
       console.log(sat)
       const tle = {
         t: (`${sat.TLE_LINE1} ${sat.TLE_LINE2}`)
 
       };
       console.log("tle", tle)
+      const date = new Date()
+      const gmst = gstime(date);
       var satrec = twoline2satrec(sat.TLE_LINE1, sat.TLE_LINE2);
-      var positionAndVelocity = await propagate(satrec, new Date());
+      console.log(satrec)
+      var positionAndVelocity = propagate(satrec, new Date());
       console.log(positionAndVelocity)
-  
-      const gmst = gstime(new Date());
-      const longitude = positionAndVelocity.position.x
-      const latitude = positionAndVelocity.position.y
-      const height = positionAndVelocity.position.z
-      console.log(longitude, latitude, height)
-      const lonDeg = Math.toDegrees(longitude);
-      const latDeg = Math.toDegrees(latitude);
-      console.log(`LAT:${latDeg}, LON:${lonDeg}`)
-      const modelPromise = Model.fromGltfAsync({
-  
-        id: sat.NORAD_CAT_ID,
-  
-        url: "http://localhost:4000/assets/sat.glb",
-  
-        modelMatrix: Matrix4.fromTranslationQuaternionRotationScale(
-  
-          new Cartesian3(lonDeg, latDeg, 7750000),
-          
-          Quaternion.IDENTITY,
-  
-          new Cartesian3(
+      try{
+        const position = eciToGeodetic(positionAndVelocity.position, gmst);
+        console.log(position)
+        const longitude = position.longitude
+        const latitude = position.latitude
+        const height = 3000000
+        console.log(`LONG: ${longitude}, LAT: ${latitude}`)
+        const modelPromise = Model.fromGltfAsync({
+    
+          id: sat.NORAD_CAT_ID,
+    
+          url: "http://localhost:4000/assets/sat.glb",
+    
+          modelMatrix: Matrix4.fromTranslationQuaternionRotationScale(
+            new Cartographic.toCartesian(new Cartographic(longitude, latitude, height)),
+            // new Cartesian3(longitude, latitude, 7750000),
             
-            sat.SEMIMAJOR_AXIS * scaleFactor,
-            sat.SEMIMAJOR_AXIS * scaleFactor,
-            sat.SEMIMAJOR_AXIS * scaleFactor
-  
-          )
-        ),
-  
-        minimumPixelSize: 64,
-  
-        maximumScale: 2,
-  
-        silhouetteColor: Color.GREEN,
-  
-      });
-      const model = await modelPromise
-      models.push(model);
+            Quaternion.IDENTITY,
+    
+            new Cartesian3(
+              
+              sat.SEMIMAJOR_AXIS * scaleFactor,
+              sat.SEMIMAJOR_AXIS * scaleFactor,
+              sat.SEMIMAJOR_AXIS * scaleFactor
+    
+            )
+          ),
+    
+          minimumPixelSize: 64,
+    
+          maximumScale: 2,
+    
+          silhouetteColor: Color.GREEN,
+    
+        });
+        models.push(await modelPromise);
+      } catch (err) {
+        console.error(err)
+      }
+      
   
     }
   
     return models;
   
   };
+
+  
   useEffect(() => {
     console.log("S", data, ref, ref.current);
+    console.log(`Early cart: ${cart}`)
     if (loading) {
       return;
     }
@@ -187,7 +190,7 @@ const CesiumMap = () => {
 
     // Set up camera zoom limits
     viewer.camera.defaultZoomAmount = 100000000000000.0;
-    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 17500000;
+    // viewer.scene.screenSpaceCameraController.minimumZoomDistance = 17500000;
     viewer.scene.screenSpaceCameraController.maximumZoomDistance = 20000000 * 2;
     // {
     //   position: Cartesian3.fromDegrees(-123.0744619, 44.0503706),
@@ -198,7 +201,6 @@ const CesiumMap = () => {
     // }
 
     // const models = await getSats()
-    console.log(data);
 
     const entities = []
     const loadModels = async function () {
@@ -216,6 +218,7 @@ const CesiumMap = () => {
     loadModels()
     var handler = new ScreenSpaceEventHandler(scene.canvas);
     handler.setInputAction(async function (click) {
+      console.log("TEST")
       var pickedObject = scene.pick(click.position);
       const satelliteId = await pickedObject.id
       console.log("picked: ", pickedObject)
@@ -223,14 +226,14 @@ const CesiumMap = () => {
         const matchedSat = await findSatelliteById(data.allSatellites, satelliteId)
         console.log('matchedSat: ', matchedSat)
         if (matchedSat) {
-          console.log('matchedSat: ', matchedSat);
-          cart.addToCart(matchedSat);
+          setCart([...cart, matchedSat]);
+          console.log(`cart: ${cart}`)
         } else {
           console.error('Satellite not found with ID:', satelliteId);
         }
       }
     }, ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
-  });
+  }, [data, loading]);
   console.log("Viewer made");
   // viewer.trackedEntity = entity;
   // viewer.dataSources.add(
@@ -238,7 +241,8 @@ const CesiumMap = () => {
   //   );
   // Add Cesium OSM Buildings, a global 3D buildings layer
 
-  return (loading) ? <div>loading</div> : <div ref={ref} style={{ height: "100vh" }} />;
+  return (loading) ? <div>loading</div> : <div ref={ref} style={{ height: "100vh" }} />
 };
+
 
 export default CesiumMap;

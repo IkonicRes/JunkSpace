@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css'; // Import your CSS file if needed
 import 'cesium/Build/Cesium/Widgets/widgets.css'; // Import CesiumJS styles
 import 'cesium/Build/Cesium/Cesium'
@@ -9,7 +9,7 @@ import CesiumMap from './components/HomePage'; // Import your CesiumMap componen
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 import Cart from './components/Cart'
 import CheckoutForm from './components/CheckoutForm'
-import { CartProvider, useCartContext } from './utils/cartContext';
+import { CartContext } from './utils/cartContext';
 const stripePromise = loadStripe('pk_test_51O1KL4FFJxtNyW2YftNdlflwv8IG0jwBZbwNktFOyyrrJLJqT8v5YdMAjxgdspjGnAsgmaUzaDDlAmJqttpny40V00CxAiamYl');
 
 const client = new ApolloClient({
@@ -27,21 +27,23 @@ const client = new ApolloClient({
 
 function App() {
   
+  const [cart, setCart] = useState([])
+  
   
   return (
-    <ApolloProvider client={client}>
-      <CartProvider>
-        <div className="App">
+    <div className="App">
+      <CartContext.Provider value={[cart, setCart]}>
+        <ApolloProvider client={client}>
           <div className="cesium-map">
             <CesiumMap/>
             <Cart/>
-            {/* <Elements stripe={stripePromise}>
-              <CheckoutForm/>
-            </Elements> */}
+              {/* <Elements stripe={stripePromise}>
+                <CheckoutForm/>
+              </Elements> */}
           </div>
-        </div>
-      </CartProvider>
-    </ApolloProvider>
+        </ApolloProvider>
+      </CartContext.Provider>
+    </div>
   );
 }
 

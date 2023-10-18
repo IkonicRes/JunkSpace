@@ -75,7 +75,9 @@ const startServer = async () => {
       // Send the POST request to Space-Track.org with the user/pwd/query as post data
       const response = await axios.post(loginURL, postData);
 
-      const newSat = await Satellite.create(response.data)
+      var data = response.data
+      data[0].PRICE = 1000
+      const newSat = await Satellite.create(data)
       console.log(newSat, response.data)
       newSat.owner = ''
       // Check the response status and resolve with data or reject with an error
@@ -86,18 +88,18 @@ const startServer = async () => {
     }
   };
   // resolvers.Query.getTleData("25544")
-  var curFetchCount = 25552
+  var curFetchCount = 25544
   const fetchAndAddSatellites = async () => {
     try {
-      var exists = Satellite.find({ "NORAD_CAT_ID": curFetchCount.toString() })
-      if (exists) {
-        console.log(`CatID ${curFetchCount} exists!`)
+      // var exists = Satellite.find({ "NORAD_CAT_ID": curFetchCount.toString() })
+      // if (exists) {
+      //   console.log(`CatID ${curFetchCount} exists!`)
         curFetchCount++
-      }
-      else{
-      const satelliteData = await querySpaceTrack(curFetchCount);
-      curFetchCount++
-      }
+      // }
+      // else{
+      var satelliteData = await querySpaceTrack(curFetchCount);
+      // curFetchCount++
+      // }
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'An error occurred' });
@@ -106,7 +108,7 @@ const startServer = async () => {
   // const interval = 3000
   const interval = 60 * 60 * 24 * 1000;
   setInterval(fetchAndAddSatellites, interval);
-  fetchAndAddSatellites()
+  // fetchAndAddSatellites()
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
 

@@ -47,7 +47,7 @@ const typeDefs = `#graphql
         type Satellite {
             id: ID!
             OWNER: ID!
-            PRICE: Float!
+            PRICE: Float
             COMMENT: String
             ORIGINATOR: String
             NORAD_CAT_ID: String
@@ -106,7 +106,7 @@ const typeDefs = `#graphql
 
         input SatelliteInput {
             OWNER: ID!
-            PRICE: Float!
+            PRICE: Float
             COMMENT: String
             ORIGINATOR: String
             NORAD_CAT_ID: String

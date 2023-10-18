@@ -151,6 +151,7 @@ const resolvers = {
         },
         createSatellite: async (_, { input }) => {
             try {
+                // input.PRICE = 1000
                 const newSatellite = new Satellite(input);
                 await newSatellite.save();
                 return newSatellite;

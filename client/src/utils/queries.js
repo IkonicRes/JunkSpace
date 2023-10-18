@@ -77,6 +77,7 @@ export const GET_ALL_SATELLITES = gql`
       APOGEE
       PERIGEE
       DECAYED
+      PRICE
     }
   }
 `;
