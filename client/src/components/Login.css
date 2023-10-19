@@ -1,0 +1,16 @@
+.Modal {
+    position: absolute;
+    inset: 244px;
+    border: 1px solid hsla(230, 99%, 58%, 0.441);
+    background: hsla(230, 99%, 58%, 0.441);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+}
+
+/* .ReactModal__Overlay.ReactModal__Overlay--after-open {
+    position: fixed;
+    inset: 0px;
+    background-color: rgba(253, 19, 19, 0.167);
+} */

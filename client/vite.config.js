@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import cesium from 'vite-plugin-cesium';
 
 import { VitePWA } from 'vite-plugin-pwa';
 // import { injectManifest } from 'workbox-build';
@@ -10,6 +11,7 @@ export default defineConfig({
   },
   plugins: [
       react(),
+      cesium(),
       VitePWA({
         registerType: 'autoUpdate',
         devOptions: {

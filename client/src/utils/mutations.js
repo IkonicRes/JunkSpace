@@ -62,11 +62,14 @@ export const DELETE_SATELLITE = gql`
 `;
 
 export const REGISTER_USER = gql`
-  mutation RegisterUser($input: UserInput!) {
-    registerUser(input: $input) {
-      id
-      username
-      email
+  mutation RegisterUser($username: String!, $email: String!, $password: String!) {
+    registerUser(username: $username, email: $email, password: $password) {
+      user {
+        id
+        username
+        email
+        }
+      token
       # Other fields you want in the response
     }
   }
@@ -76,7 +79,7 @@ export const LOGIN_USER = gql`
   mutation LoginUser($email: String!, $password: String!) {
     loginUser(email: $email, password: $password) {
       token
-      User {
+      user {
         id
         username
         email
