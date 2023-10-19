@@ -1,35 +1,34 @@
 // Cart.js
 
-import { useState, useEffect } from 'react';
+import { useContext, useEffect, useState} from 'react';
 import ProductCard from './ProductCard';
+import { CartContext } from '../utils/cartContext';
 
-const Cart = ({ cartItems }) => {
+
+const Cart = () => {
 
   const [total, setTotal] = useState(0);
+  const [cart] = useContext(CartContext);
 
   useEffect(() => {
-    // Calculate total on mount/update  
-    let newTotal = 0;
-    cartItems.forEach(item => {
-      newTotal += item.price; 
+    cart.forEach(product => {
+      setTotal(total + product.PRICE)
     });
-
-    setTotal(newTotal);
-  }, [cartItems]);
-
+  }, [cart])
+  console.log("cart: ", cart)
   return (
     <div className="cartOverlay">
-      {cartItems.map((item, index) => {
+      {cart.map((product, index) => {
+        
         <ProductCard  
-        key={index}
-        name={item.name}
-        noradID={item.noradId}
-        comment={item.comment}
-        price={item.price}
-      /> 
-
+          key={index}
+          name={product.OBJECT_NAME}
+          noradID={product?.NORAD_CAT_ID}
+          comment={product?.COMMENT}
+          price={product?.PRICE}
+          /> 
       }
-    )}
+      )}
 
       <p>Total: ${total}</p>
       <button>Checkout</button>

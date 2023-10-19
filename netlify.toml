@@ -1,0 +1,28 @@
+[dev]
+  command = "npm run vite:start"
+  publish = "client/dist"
+  # We need another port for the application because Vite occupies the 3000.
+  port = 4001
+
+[build]
+  command = "npm run build"
+  functions = "functions"
+  publish = "client/dist"  # Adjust this path to match your build output
+
+[build.environment]
+  NETLIFY = "true"
+
+[context.production.environment]
+  NODE_ENV = "production"
+
+[functions]
+  # We are goint to use ES modules so we need esbuild to transpile the code.
+  node_bundler = "esbuild"
+  # This line will include into the environment a file with the mock data.
+  included_files = ["data/*.json"]
+
+  # We have to tell the Netlify that this URL will be served by the graphql function.
+[[redirects]]
+  from = "graphql"
+  to = "/.netlify/functions/graphql"
+  status = 200

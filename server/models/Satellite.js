@@ -23,6 +23,7 @@ const satelliteSchema = new Schema({
     MEAN_MOTION_DOT: String,
     MEAN_MOTION_DDOT: String,
     FILE: String,
+    PRICE: Number,
     TLE_LINE0: String,
     TLE_LINE1: String,
     TLE_LINE2: String,
