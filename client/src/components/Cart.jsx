@@ -1,4 +1,3 @@
-// Cart.js
 
 import { useContext, useEffect, useState} from 'react';
 import ProductCard from './ProductCard';

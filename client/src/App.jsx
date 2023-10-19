@@ -7,7 +7,7 @@ import 'cesium/Build/Cesium/Cesium'
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-
+import {CartContext} from './utils/cartContext';
 import CesiumMap from './components/HomePage'; // Import your CesiumMap component
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 import Cart from './components/Cart'
