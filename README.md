@@ -1,10 +1,10 @@
 ![image](./client/public/assets/heather.png)
 
-# SpaceMart
+# Junk Space
 
 ## Description
 
-Space Mart web application is a 3D online marketplace where user can explore and shop space debris.
+Junk Space web application is a 3D online marketplace where user can explore and shop space debris.
 
 ## Table-of-Contents
 
@@ -75,7 +75,7 @@ Space Mart web application is a 3D online marketplace where user can explore and
 
 ### Contributors
 
-Space Mart is a collaborative project created by a dedicated team of space enthusiasts:
+Junk Space is a collaborative project created by a dedicated team of space enthusiasts:
 
 - Michael Ikonomou : Project Lead, Developer
 
