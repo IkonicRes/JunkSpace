@@ -6,18 +6,12 @@ import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 import './Login.css';
 
-const Login = () => {
+const Login = ({setShowLogin}) => {
   const [modalIsOpen, setModalIsOpen] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
+  const [formState, setFormState] = useState({ email: '', password: '' });
   const [login, { error, data }] = useMutation(LOGIN_USER);
-  const [formState, setFormState] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
- 
+
+  // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -32,11 +26,13 @@ const Login = () => {
     console.log(formState);
 
     try {
-      const { data } = await addUser({
+      console.log("fs: ", formState)
+      const { data } = await login({
         variables: { ...formState },
       });
-
-      Auth.login(data.addUser.token);
+      console.log("Data: ", data)
+      Auth.login(data.loginUser.token);
+      console.log("logged in!")
     } catch (e) {
       console.error(e);
     }
@@ -50,45 +46,32 @@ const Login = () => {
   const closeModal = () => {
     setModalIsOpen(false);
   }
-const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent the form from submitting
-
-    try {
-      const { data } = await login({
-        variables: { email, password },
-      });
-
-      Auth.login(data.login.token);
-    } catch (error) {
-      console.error(error);
-      // Handle login error here, e.g., display an error message to the user
-    }
-  };
-
+  if (!Auth.loggedIn()) {
   return (
     <div>
       <button onClick={openModal}>Login/Register</button>
       
       <Modal className='Modal'
         isOpen={modalIsOpen}
-        onRequestClose={closeModal}
         ariaHideApp= {false}
       >
         <h2>Login or Register</h2>
         
-        <button onClick={closeModal}>X</button>
-        
-        <form onSubmit={handleLogin}>
-          <input type="text" placeholder="Email" value={email}
-            onChange={(e) => setEmail(e.target.value)}/>
-          <input type="password" placeholder="Password" value={password}
-            onChange={(e) => setPassword(e.target.value)}/>
-          <button type="submit">Login</button>
-          <button type="submit">Register</button>
+        <form onSubmit={handleFormSubmit}>
+          <input type="text" name="email" placeholder="Email" value={formState.email}
+            onChange={handleChange}
+            />
+          <input type="password" name="password" placeholder="********" value={formState.password}
+            onChange={handleChange}/>
+          <button type="submit" style={{ cursor: 'pointer' }}>Login</button>
+          <button onClick={handleChange}>
+            Switch to Signup
+          </button>
         </form> 
       </Modal>
     </div>
   );
+  }
 }
 
 export default Login;

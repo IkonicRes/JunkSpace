@@ -31,34 +31,24 @@ const stuff = [{
 
 function App() {
   const [seen, setSeen] = useState(false)
-
-    function togglePop () {
-        setSeen(!seen);
-    }
-
+  const [showLogin, setShowLogin] = useState(true);
   return (
+    
     <ApolloProvider client={client}>
-      {Auth.loggedIn() ? <div className="App">
+      <div className="App">
         <CesiumMap/>
         <Elements stripe={stripePromise}>
           {/* <CheckoutForm/> */}
           <div>
-            <button onClick={togglePop}>Login</button>
-            {seen ? <Login toggle={togglePop} /> : <SignUp/>}
-        </div>
+        
+        {showLogin ? (
+            <Login setShowLogin={setShowLogin}/>
+          ) : (
+            <SignUp setShowLogin={setShowLogin}/>  
+          )}
+      </div>
         </Elements>
-      </div> :
-      <div className="App">
-        <Login/>
-        <CesiumMap/>
-        {/* <Elements stripe={stripePromise}> */}
-          {/* <CheckoutForm/> */}
-          <div>
-            <button onClick={togglePop}>Login</button>
-            {seen ? <Login toggle={togglePop} /> : <SignUp/>}
-        </div>
-        {/* </Elements> */}
-      </div>  }
+      </div> 
     </ApolloProvider>
   );
 }
