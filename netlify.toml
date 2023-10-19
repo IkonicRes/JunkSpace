@@ -1,9 +1,6 @@
 [[plugins]]
   package = "junkspace"
 
-  [plugins.inputs]    
-    node_version = "16.x"
-
 [build]
   command = "npm run build"
   functions = "/functions"
