@@ -4,14 +4,14 @@ const cors = require('cors');
 const { ApolloServer } = require('@apollo/server');
 const bodyParser = require('body-parser');
 const { expressMiddleware } = require('@apollo/server/express4');
-const db = require('./config/connection');
+const db = require('../server/config/connection');
 // const fetch = require('node-fetch'); // Import node-fetch
 const path = require('path'); // Import path module
-const PORT = process.env.PORT || 4001;
-const { typeDefs, resolvers } = require("./schemas");
-const { Satellite } = require('./models');
-const { authMiddleware } = require('./utils/auth');
-const { createSatellite } = require('./schemas/typeDefs')
+const PORT = process.env.NETLIFY_DEV_PORT || 4001
+const { typeDefs, resolvers } = require("../server/schemas");
+const { Satellite } = require('../server/models');
+const { authMiddleware } = require('../server/utils/auth');
+const { createSatellite } = require('../server/schemas/typeDefs')
 const axios = require('axios');
 
 // const { PeliasGeocoderService } = require('cesium');
@@ -31,7 +31,7 @@ const startServer = async () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  app.use('/graphql', expressMiddleware(server));
+  app.use('/.netlify/functions/graphql', expressMiddleware(server));
   app.use(cors())
   // Define a route for your proxy
   app.get('/space-track/:noradCatId', async (req, res) => {
@@ -75,7 +75,9 @@ const startServer = async () => {
       // Send the POST request to Space-Track.org with the user/pwd/query as post data
       const response = await axios.post(loginURL, postData);
 
-      const newSat = await Satellite.create(response.data)
+      var data = response.data
+      data[0].PRICE = 1000
+      const newSat = await Satellite.create(data)
       console.log(newSat, response.data)
       newSat.owner = ''
       // Check the response status and resolve with data or reject with an error
@@ -86,18 +88,18 @@ const startServer = async () => {
     }
   };
   // resolvers.Query.getTleData("25544")
-  var curFetchCount = 25552
+  var curFetchCount = 25544
   const fetchAndAddSatellites = async () => {
     try {
-      var exists = Satellite.find({ "NORAD_CAT_ID": curFetchCount.toString() })
-      if (exists) {
-        console.log(`CatID ${curFetchCount} exists!`)
+      // var exists = Satellite.find({ "NORAD_CAT_ID": curFetchCount.toString() })
+      // if (exists) {
+      //   console.log(`CatID ${curFetchCount} exists!`)
         curFetchCount++
-      }
-      else{
-      const satelliteData = await querySpaceTrack(curFetchCount);
-      curFetchCount++
-      }
+      // }
+      // else{
+      var satelliteData = await querySpaceTrack(curFetchCount);
+      // curFetchCount++
+      // }
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'An error occurred' });
@@ -106,7 +108,7 @@ const startServer = async () => {
   // const interval = 3000
   const interval = 60 * 60 * 24 * 1000;
   setInterval(fetchAndAddSatellites, interval);
-  fetchAndAddSatellites()
+  // fetchAndAddSatellites()
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
 
