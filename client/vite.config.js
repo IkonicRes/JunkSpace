@@ -18,7 +18,6 @@ export default defineConfig({
         },
         injectRegister: 'auto'
       }),
-      cesium()
   ],
   server: {
     port: 4000,

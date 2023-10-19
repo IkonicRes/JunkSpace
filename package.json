@@ -2,9 +2,8 @@
   "devDependencies": {
     "cesium": "^1.110.0",
     "netlify-lambda": "^2.0.16",
-    "vite": "^4.4.11",
+    "vite": "^4.5.0",
     "vite-plugin-cesium": "^1.2.22",
-    "vite-plugin-pwa": "^0.16.5",
     "workbox-webpack-plugin": "^7.0.0",
     "workbox-window": "^7.0.0"
   },
