@@ -13,9 +13,9 @@ const { Satellite } = require('../../../server/models');
 const { authMiddleware } = require('../../../server/utils/auth');
 const { createSatellite } = require('../../../server/schemas/typeDefs')
 const axios = require('axios');
-import { resolve } from "path";
+const { resolve } = require("path");
 
-import { JSONFile, Low } from "lowdb";
+// const { JSONFile, Low } = require("lowdb";
 
 const Database = () => {
   const filePath = resolve("data", "db.json");

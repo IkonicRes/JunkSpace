@@ -92,7 +92,7 @@ const CesiumMap = ({addToCart}) => {
     
           id: sat.NORAD_CAT_ID,
     
-          url: "http://localhost:4000/assets/sat.glb" || window.location.href + "/assets/sat.glb",
+          url: "http://localhost:4000/assets/sat.glb" || "https://junkspace.netlify.app/assets/sat.glb",
     
           modelMatrix: Matrix4.fromTranslationQuaternionRotationScale(
             new Cartographic.toCartesian(new Cartographic(longitude, latitude, height)),
