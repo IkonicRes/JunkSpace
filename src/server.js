@@ -1,5 +1,5 @@
 
-const express = require('../node_modules/express');
+const express = require('express');
 const cors = require('cors');
 const { ApolloServer } = require('@apollo/server');
 const bodyParser = require('body-parser');
@@ -127,3 +127,5 @@ const startServer = async () => {
 };
 
 startServer();
+
+module.exports = app;
