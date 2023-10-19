@@ -1,4 +1,4 @@
-![image](../JunkSpace/client/public/assets/heather.png)
+![image](./client/public/assets/heather.png)
 
 # SpaceMart
 
