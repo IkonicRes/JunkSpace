@@ -103,8 +103,8 @@ const startServer = async () => {
       res.status(500).json({ error: 'An error occurred' });
     }
   };
-  // const interval = 3000
-  const interval = 60 * 60 * 24 * 1000;
+  const interval = 3000
+  // const interval = 60 * 60 * 24 * 1000;
   setInterval(fetchAndAddSatellites, interval);
   fetchAndAddSatellites()
   if (process.env.NODE_ENV === "production") {

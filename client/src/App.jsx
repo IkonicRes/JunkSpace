@@ -5,7 +5,7 @@ import 'cesium/Build/Cesium/Cesium'
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-
+import {CartContext} from './utils/cartContext';
 import CesiumMap from './components/HomePage'; // Import your CesiumMap component
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 import Cart from './components/Cart'
@@ -30,26 +30,33 @@ const stuff = [{
 }]
 
 function App() {
+  const [cart, setCart] = useState([])
   const [seen, setSeen] = useState(false)
   const [showLogin, setShowLogin] = useState(true);
+  const addToCart = (product) => {
+    setCart(prev => [...prev, product]) // add product to cart
+  }
   return (
-    
-    <ApolloProvider client={client}>
-      <div className="App">
-        <CesiumMap/>
-        <Elements stripe={stripePromise}>
-          {/* <CheckoutForm/> */}
-          <div>
-        
-        {showLogin ? (
-            <Login setShowLogin={setShowLogin}/>
-          ) : (
-            <SignUp setShowLogin={setShowLogin}/>  
-          )}
-      </div>
-        </Elements>
-      </div> 
-    </ApolloProvider>
+    <div className="App">
+      <CartContext.Provider value={[cart, setCart]}>
+        <ApolloProvider client={client}>
+          <div className="cesium-map">
+            <CesiumMap addToCart={addToCart}/>
+            <Cart/>
+              {/* <Elements stripe={stripePromise}>
+                <CheckoutForm/>
+              </Elements> */}
+            <div>
+              {showLogin ? (
+                  <Login setShowLogin={setShowLogin}/>
+                ) : (
+                  <SignUp setShowLogin={setShowLogin}/>  
+                )}
+            </div>
+          </div>
+        </ApolloProvider>
+      </CartContext.Provider>
+    </div>
   );
 }
 
