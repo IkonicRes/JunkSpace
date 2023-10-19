@@ -73,13 +73,11 @@ Space Mart web application is a 3D online marketplace where user can explore and
 - Allow users to leave reviews and ratings for sellers and their items to build trust within the community.
 - Create an admin panel to manage user accounts, listings, and resolve disputes if they arise.
 
-## Credits
-
 ### Contributors
 
 Space Mart is a collaborative project created by a dedicated team of space enthusiasts:
 
-- Michael Ikonomou
+- Michael Ikonomou : Project Lead, Developer
 
     <a href="https://www.linkedin.com/in/michael-ikonomou-42b636289/">
         <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> LinkedIn
@@ -90,7 +88,7 @@ Space Mart is a collaborative project created by a dedicated team of space enthu
 
 ---
 
-- Ceasar Roman
+- Ceasar Roman : Developer
 
     <a href="https://www.linkedin.com/in/cesar-r-27a263162/">
         <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> LinkedIn
@@ -101,7 +99,7 @@ Space Mart is a collaborative project created by a dedicated team of space enthu
 
 ---
 
-- Marjan Nazari
+- Marjan Nazari : Developer
 
     <a href="https://www.linkedin.com/in/marjan-nazari-24a577167/">
         <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> LinkedIn
@@ -114,6 +112,16 @@ Space Mart is a collaborative project created by a dedicated team of space enthu
 
 We welcome contributions and feedback from the community. Please feel free to share your thoughts on how we can make Space Mart even better.
 Your contributions help us in our mission to protect the space environment and ensure the safety of future space exploration. Thank you for being a part of this cosmic journey!
+
+### Credits
+
+- [Cesium](https://cesium.com/): Open platform for software applications designed to unleash the power of 3D data.
+- [Stripe](https://stripe.com/): Secure payment processing for our marketplace.
+- [NASA's Open Data](https://data.nasa.gov/): A valuable source of information on space artifacts and debris.
+- [N2YO.COM](https://www.n2yo.com/api/): Provide data to build satellite tracking or prediction applications.
+- [Space-Track.org](https://www.space-track.org/documentation): Provide data to track satellite.
+
+#### Special Thanks to our dedicated Teaching Assistants (TA) and Instructor from the University of Minnesota Bootcamp for their guidance, support, and valuable insights throughout the development of this project.
 
 ## License
 
