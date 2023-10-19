@@ -22,8 +22,8 @@ import SignUp from './components/SighUp'
 
 
 const client = new ApolloClient({
-    uri: "/.netlify/functions/graphql",
-    // uri: "/graphql",
+    // uri: "/.netlify/functions/graphql",
+    uri: "/graphql",
     cache: new InMemoryCache()
 })
 
