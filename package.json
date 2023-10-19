@@ -2,6 +2,7 @@
   "devDependencies": {
     "cesium": "^1.110.0",
     "netlify-lambda": "^2.0.16",
+    "proj3": "^1.0.1",
     "vite": "^4.4.11",
     "vite-plugin-cesium": "^1.2.22",
     "vite-plugin-pwa": "^0.16.5",
