@@ -23,7 +23,7 @@ Space Mart web application is a 3D online marketplace where user can explore and
 
 ## Mock Up
 
-<img alt="ScreenShot" src="../JunkSpace/client/public/assets/Screenshot 2023-10-19 114522.png" />
+<img alt="ScreenShot" src="./client/public/assets/Screenshot 2023-10-19 114522.png" />
 
 ## Features
 
