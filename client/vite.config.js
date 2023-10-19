@@ -1,16 +1,18 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import cesium from 'vite-plugin-cesium';
 import { VitePWA } from 'vite-plugin-pwa';
+import react from '@vitejs/plugin-react'
+import cesium from 'vite-plugin-cesium'
+import Graphql from '@rollup/plugin-graphql'
 // import { injectManifest } from 'workbox-build';
 
 export default defineConfig({
   optimizeDeps: {
-    include: ['cesium','satellite.js', 'axios'], // Include satellite.js in the optimized dependencies
+    include: ['satellite.js', 'axios'], // Include satellite.js in the optimized dependencies
   },
   plugins: [
-      react(),
-      cesium(),
+    cesium(),
+    react(),
+    Graphql(),
       VitePWA({
         registerType: 'autoUpdate',
         devOptions: {
