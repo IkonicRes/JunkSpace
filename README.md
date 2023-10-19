@@ -8,7 +8,7 @@ Space Mart web application is a 3D online marketplace where user can explore and
 
 ## Table-of-Contents
 
-- [Deployed Site](#deployed-site)
+- [Deployed App](#deployed-app)
 - [Mock Up](#mock-up)
 - [Features](#features)
 - [Technologies](#technologies)
@@ -77,7 +77,7 @@ Space Mart web application is a 3D online marketplace where user can explore and
 
 ### Contributors
 
-Space Mart is a collaborative project created by a dedicated team of space enthusiasts:
+## Space Mart is a collaborative project created by a dedicated team of space enthusiasts:
 
 - Michael Ikonomou
 
@@ -88,6 +88,8 @@ Space Mart is a collaborative project created by a dedicated team of space enthu
         <img src="https://i.stack.imgur.com/tskMh.png" alt="github"> Github
     </a>
 
+---
+
 - Ceasar Roman
 
     <a href="https://www.linkedin.com/in/cesar-r-27a263162/">
@@ -97,6 +99,8 @@ Space Mart is a collaborative project created by a dedicated team of space enthu
         <img src="https://i.stack.imgur.com/tskMh.png" alt="github"> Github
     </a>
 
+---
+
 - Marjan Nazari
 
     <a href="https://www.linkedin.com/in/marjan-nazari-24a577167/">
@@ -105,6 +109,8 @@ Space Mart is a collaborative project created by a dedicated team of space enthu
     <a href="https://github.com/Marjan-MN">
         <img src="https://i.stack.imgur.com/tskMh.png" alt="github"> Github
     </a>
+
+---
 
 We welcome contributions and feedback from the community. Please feel free to share your thoughts on how we can make Space Mart even better.
 Your contributions help us in our mission to protect the space environment and ensure the safety of future space exploration. Thank you for being a part of this cosmic journey!
