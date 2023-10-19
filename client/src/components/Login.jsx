@@ -64,7 +64,7 @@ const Login = ({setShowLogin}) => {
           <input type="password" name="password" placeholder="********" value={formState.password}
             onChange={handleChange}/>
           <button type="submit" style={{ cursor: 'pointer' }}>Login</button>
-          <button onClick={handleChange}>
+          <button onClick={() => setShowLogin(false)}>
             Switch to Signup
           </button>
         </form> 
