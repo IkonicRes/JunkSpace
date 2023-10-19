@@ -5,14 +5,14 @@
     node_version = "16.x"
 
 [build]
-command = "npm run install"
-functions = "/functions"
+  command = "npm run install"
+  functions = "/functions"
 
 [build.environment]
-NETLIFY = "true"
+  NETLIFY = "true"
 
 [build.publish]
-directory = "client/dist"  # Adjust this path to match your build output
+  directory = "client/dist"  # Adjust this path to match your build output
 
 [context.production.environment]
-NODE_ENV = "production"
+  NODE_ENV = "production"
