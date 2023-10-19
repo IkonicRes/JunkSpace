@@ -1,4 +1,6 @@
 [[plugins]]
+  package = "proj3"
+
   [plugins.inputs]    
     node_version = "16.x"
 
