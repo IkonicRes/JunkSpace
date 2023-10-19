@@ -19,6 +19,7 @@
     "react-dom": "^18.2.0",
     "satellite.js": "^5.0.0",
     "tle2czml": "^1.0.0",
+    "vite-plugin-cesium": "^1.2.22",
     "vite-plugin-pwa": "^0.16.5"
   },
   "devDependencies": {
