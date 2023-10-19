@@ -204,31 +204,33 @@ const resolvers = {
         },
         loginUser: async (_, { email, password }) => {
             try {
+                console.log("Data: ", email, password)
                 // Implement authentication logic here (e.g., check email and password)
                 const user = await User.findOne({ email });
-
+                console.log("User: ", user)
                 // Check if the user exists
                 if (!user) {
                     throw new AuthenticationError('User not found');
                 }
 
                 // Compare the provided password with the hashed password in the database
-                const passwordMatch = await bcrypt.compare(password, User.password);
-
+                const passwordMatch = await bcrypt.compare(password, user.password);
+                console.log("Match: ", passwordMatch)
                 // If the passwords don't match, throw an AuthenticationError
                 if (!passwordMatch) {
                     throw new AuthenticationError('Incorrect password');
                 }
                 // Generate a JWT token for the authenticated user
                 const token = Auth.signToken(
-                    { userId: User.id, email: User.email },
-                    'your-secret-key', // Replace with a secure secret key
+                    { username: user.username, id: user.id, email: user.email },
+                    'shhhhasldkjfaojweofnqp', // Replace with a secure secret key
                     { expiresIn: '1h' } // Token expiration time
                 );
+                console.log(token)
                 // Return the authenticated user or throw an error if authentication fails
                 return {
                     token,
-                    User,
+                    user
                 }
             } catch (error) {
                 throw new Error(`Error logging in: ${error.message}`);
