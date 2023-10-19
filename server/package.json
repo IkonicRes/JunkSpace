@@ -2,10 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node ../src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +23,7 @@
     "jsonwebtoken": "^9.0.2",
     "node-fetch": "^3.3.2",
     "stripe": "^13.10.0",
+    "vite": "^4.5.0",
     "tle2czml": "^1.0.0"
   }
 }
