@@ -7,12 +7,10 @@
 [build]
   command = "npm run install"
   functions = "/functions"
+  publish = "client/dist"  # Adjust this path to match your build output
 
 [build.environment]
   NETLIFY = "true"
-
-[build.publish]
-  directory = "client/dist"  # Adjust this path to match your build output
 
 [context.production.environment]
   NODE_ENV = "production"
