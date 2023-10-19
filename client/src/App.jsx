@@ -13,7 +13,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 import Cart from './components/Cart'
 
 import CheckoutForm from './components/CheckoutForm'
-import { CartContext } from './utils/cartContext';
+import {CartContext} from './utils/cartContext';
 
 const stripePromise = loadStripe('pk_test_51O1KL4FFJxtNyW2YftNdlflwv8IG0jwBZbwNktFOyyrrJLJqT8v5YdMAjxgdspjGnAsgmaUzaDDlAmJqttpny40V00CxAiamYl');
 import Login from './components/Login'
@@ -22,7 +22,8 @@ import SignUp from './components/SighUp'
 
 
 const client = new ApolloClient({
-    uri: "/graphql",
+    uri: "/.netlify/functions/graphql",
+    // uri: "/graphql",
     cache: new InMemoryCache()
 })
 
@@ -67,4 +68,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

@@ -28,7 +28,7 @@ import Skybox_front from "/assets/SkyBoxFT.png";
 import Skybox_left from "/assets/SkyBoxLF.png";
 import Skybox_right from "/assets/SkyBoxRT.png";
 import Skybox_top from "/assets/SkyBoxUP.png";
-const czmlFile = "http://localhost:4001/assets/temp.tle.czml";
+// const czmlFile = "http://localhost:4001/assets/temp.tle.czml";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_SATELLITES } from "../utils/queries";
 import { CartContext } from "../utils/cartContext";

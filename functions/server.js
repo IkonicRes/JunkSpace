@@ -1,5 +1,5 @@
 
-const express = require('express');
+const express = require('../node_modules/express');
 const cors = require('cors');
 const { ApolloServer } = require('@apollo/server');
 const bodyParser = require('body-parser');
@@ -32,6 +32,7 @@ const startServer = async () => {
   app.use(express.json());
 
   app.use('/.netlify/functions/graphql', expressMiddleware(server));
+  // app.use('/graphql', expressMiddleware(server));
   app.use(cors())
   // Define a route for your proxy
   app.get('/space-track/:noradCatId', async (req, res) => {
