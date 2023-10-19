@@ -13,7 +13,6 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 import Cart from './components/Cart'
 
 import CheckoutForm from './components/CheckoutForm'
-import {CartContext} from './utils/cartContext';
 
 const stripePromise = loadStripe('pk_test_51O1KL4FFJxtNyW2YftNdlflwv8IG0jwBZbwNktFOyyrrJLJqT8v5YdMAjxgdspjGnAsgmaUzaDDlAmJqttpny40V00CxAiamYl');
 import Login from './components/Login'
