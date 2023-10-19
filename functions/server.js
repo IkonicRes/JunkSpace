@@ -4,14 +4,14 @@ const cors = require('cors');
 const { ApolloServer } = require('@apollo/server');
 const bodyParser = require('body-parser');
 const { expressMiddleware } = require('@apollo/server/express4');
-const db = require('./config/connection');
+const db = require('../server/config/connection');
 // const fetch = require('node-fetch'); // Import node-fetch
 const path = require('path'); // Import path module
-const PORT = process.env.PORT || 4001;
-const { typeDefs, resolvers } = require("./schemas");
-const { Satellite } = require('./models');
-const { authMiddleware } = require('./utils/auth');
-const { createSatellite } = require('./schemas/typeDefs')
+const PORT = process.env.NETLIFY_DEV_PORT || 4001
+const { typeDefs, resolvers } = require("../server/schemas");
+const { Satellite } = require('../server/models');
+const { authMiddleware } = require('../server/utils/auth');
+const { createSatellite } = require('../server/schemas/typeDefs')
 const axios = require('axios');
 
 // const { PeliasGeocoderService } = require('cesium');
@@ -31,7 +31,7 @@ const startServer = async () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  app.use('/graphql', expressMiddleware(server));
+  app.use('/.netlify/functions/graphql', expressMiddleware(server));
   app.use(cors())
   // Define a route for your proxy
   app.get('/space-track/:noradCatId', async (req, res) => {

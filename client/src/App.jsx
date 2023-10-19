@@ -28,14 +28,16 @@ const client = new ApolloClient({
 function App() {
   
   const [cart, setCart] = useState([])
-  
+  const addToCart = (product) => {
+    setCart(prev => [...prev, product]) // add product to cart
+  }
   
   return (
     <div className="App">
       <CartContext.Provider value={[cart, setCart]}>
         <ApolloProvider client={client}>
           <div className="cesium-map">
-            <CesiumMap/>
+            <CesiumMap addToCart={addToCart}/>
             <Cart/>
               {/* <Elements stripe={stripePromise}>
                 <CheckoutForm/>

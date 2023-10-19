@@ -24,7 +24,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/graphql': {
-        target: 'http://localhost:4001', // Replace with your GraphQL server URL
+        target: '/.netlify/functions/graphql', // Replace with your GraphQL server URL
         changeOrigin: true,
         secure: false,
       },

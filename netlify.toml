@@ -1,0 +1,9 @@
+[[plugins]]
+  package = "netlify-plugin-dev"
+
+  [plugins.inputs]    
+    node_version = "16.x"
+
+[build]
+  command = "npm install"
+  functions = "functions"
