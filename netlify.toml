@@ -1,5 +1,5 @@
 [[plugins]]
-  package = "proj3"
+  package = "junkspace"
 
   [plugins.inputs]    
     node_version = "16.x"
@@ -7,7 +7,7 @@
 [build]
   command = "npm run build"
   functions = "/functions"
-  publish = "client/dist"  # Adjust this path to match your build output
+  publish = "/client/dist"  # Adjust this path to match your build output
 
 [build.environment]
   NETLIFY = "true"
