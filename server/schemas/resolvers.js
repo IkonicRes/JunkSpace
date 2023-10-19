@@ -4,11 +4,12 @@ const { PaymentIntent, SpaceDebris, Satellite, User } = require('../models');
 const bcrypt = require('bcrypt');
 // Import jsonwebtoken for generating tokens
 const jwt = require('jsonwebtoken');
-const { signToken, AuthenticationError } = require('@apollo/server');
+const { AuthenticationError } = require('@apollo/server');
 const stripe = require('stripe')('sk_test_51O1KL4FFJxtNyW2Yjpf8OcEur0Apd2VVt2rLyGOjB3WWeMbx6NgbxuOcOXJSjp83SLOmgwE6Nh6v4mxPbYMkhwJl00rbQb24O6');
 const tle2czml = require('tle2czml');
 const fs = require('fs');
 const tempTleFilePath = 'temp.tle';
+const Auth = require('../utils/auth');
 
 
 const resolvers = {
@@ -21,19 +22,19 @@ const resolvers = {
             // Remove the temporary file after use
             fs.unlinkSync(tempTleFilePath);
             return { position, orientation };
-          },
-          
+        },
+
         getTleData: async (_, catId) => {
             //Get the TLE from the associated NORAD ID
             try {
                 catId = catId.catId
                 console.log(catId)
-                var satData = await Satellite.find({'NORAD_CAT_ID': catId})
+                var satData = await Satellite.find({ 'NORAD_CAT_ID': catId })
                 console.log(satData[0])
                 satData = satData[0]
-                if (satData.length == 0){
+                if (satData.length == 0) {
                     console.log('feck')
-                    return{
+                    return {
                         NORAD_CAT_ID: catId,
                         tle0: '',
                         tle1: '',
@@ -46,12 +47,12 @@ const resolvers = {
                     tle1: satData.TLE_LINE1,
                     tle2: satData.TLE_LINE2
                 }
-            } 
+            }
             catch (error) {
                 throw new Error(`Failed to fetch TLEData from db: ${error.message}`)
             }
         },
-        getPaymentIntent: async (_, {amount, currency}) => {
+        getPaymentIntent: async (_, { amount, currency }) => {
             try {
                 const paymentIntent = await stripe.paymentIntents.create({
                     amount,
@@ -168,12 +169,12 @@ const resolvers = {
                 if (!satellite) {
                     throw new Error('Satellite not found');
                 }
-        
+
                 // Update the owner field if it's either false or doesn't exist
                 if (satellite.owner === false || satellite.owner === undefined) {
                     satellite.owner = input.ownerID;
                 }
-        
+
                 // Save the updated satellite
                 const updatedSatellite = await satellite.save();
                 console.log(updatedSatellite.owner)
@@ -182,7 +183,7 @@ const resolvers = {
                 throw new Error(`Error updating satellite: ${error.message}`);
             }
         },
-        
+
         deleteSatellite: async (_, { id }) => {
             try {
                 await Satellite.findByIdAndDelete(id);
@@ -191,11 +192,12 @@ const resolvers = {
                 throw new Error(`Error deleting satellite: ${error.message}`);
             }
         },
-        registerUser: async (_, { username, email, fullName, password, dateOfBirth }) => {
+        registerUser: async (_, { username, email, password }) => {
             try {
-                const newUser = new User({ username, email, fullName, password, dateOfBirth });
+                const newUser = new User({ username, email, password });
                 await newUser.save();
-                return newUser;
+                const token = Auth.signToken(newUser)
+                return { user: newUser, token };
             } catch (error) {
                 console.log(error)
                 throw new Error(`Error registering user: ${error.message}`);
@@ -203,31 +205,33 @@ const resolvers = {
         },
         loginUser: async (_, { email, password }) => {
             try {
+                console.log("Data: ", email, password)
                 // Implement authentication logic here (e.g., check email and password)
                 const user = await User.findOne({ email });
-
+                console.log("User: ", user)
                 // Check if the user exists
                 if (!user) {
                     throw new AuthenticationError('User not found');
                 }
 
                 // Compare the provided password with the hashed password in the database
-                const passwordMatch = await bcrypt.compare(password, User.password);
-
+                const passwordMatch = await bcrypt.compare(password, user.password);
+                console.log("Match: ", passwordMatch)
                 // If the passwords don't match, throw an AuthenticationError
                 if (!passwordMatch) {
                     throw new AuthenticationError('Incorrect password');
                 }
                 // Generate a JWT token for the authenticated user
-                const token = signToken(
-                    { userId: User.id, email: User.email },
-                    'your-secret-key', // Replace with a secure secret key
+                const token = Auth.signToken(
+                    { username: user.username, id: user.id, email: user.email },
+                    'shhhhasldkjfaojweofnqp', // Replace with a secure secret key
                     { expiresIn: '1h' } // Token expiration time
                 );
+                console.log(token)
                 // Return the authenticated user or throw an error if authentication fails
                 return {
                     token,
-                    User,
+                    user
                 }
             } catch (error) {
                 throw new Error(`Error logging in: ${error.message}`);
@@ -240,7 +244,7 @@ const resolvers = {
                 if (!context.currentUser) {
                     throw new AuthenticationError('User not authenticated');
                 }
-                const token = signToken(
+                const token = Auth.signToken(
                     { userId: context.currentUser.id, email: context.currentUser.email },
                     { expiresIn: '1m' } // Token expiration time (e.g., 1 minute)
                 );

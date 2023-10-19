@@ -36,7 +36,7 @@
 
 ### Contributors
 
-- Michaeel Ikonomou
+- Michael Ikonomou
 - Ceasar Roman
 - Marjan Nazari
 

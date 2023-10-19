@@ -10,6 +10,7 @@ export default defineConfig({
   },
   plugins: [
       react(),
+      cesium(),
       VitePWA({
         registerType: 'autoUpdate',
         devOptions: {

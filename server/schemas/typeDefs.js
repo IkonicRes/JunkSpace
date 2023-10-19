@@ -1,28 +1,30 @@
 
-
 const typeDefs = `#graphql
+
+        type PaymentMethod {
+            id: String!
+            brand: String! #Payment method brand (e.g., Visa, MasterCard)
+            last4: String!
+        }
+
+        input PaymentMethodInput {
+            id: String!
+            brand: String! #Payment method brand (e.g., Visa, MasterCard)
+            last4: String!
+        }
+
         type PaymentIntent {
             clientSecret: String!
             amount: Float!
             currency: String!
             description: String
             status: String!
-            user: [User]!
-            # paymentMethod: [PaymentMethod]!
+            user: User!
+            paymentMethod: PaymentMethod!
             created: String!
         }
+
         
-        type tleData {
-            NORAD_CAT_ID: String!
-            tle0: String!
-            tle1: String!
-            tle2: String!
-        }
-        # type PaymentMethod {
-        #     id: String!
-        #     brand: String! #Payment method brand (e.g., Visa, MasterCard)
-        #     last4: String!
-        # }
         
         type SpaceDebris {
             id: ID!
@@ -40,10 +42,7 @@ const typeDefs = `#graphql
             longitude: Float!
             altitude: Float!
         }
-        type Trajectory {
-            position: Float!
-            orientation: Float!
-        }
+
         type Satellite {
             id: ID!
             OWNER: ID!
@@ -89,7 +88,10 @@ const typeDefs = `#graphql
             email: String!
             password: String!
         }
-
+        type Auth {
+            token: ID!
+            user: User
+        }
         input LocationInput {
             latitude: Float!
             longitude: Float!
@@ -140,6 +142,7 @@ const typeDefs = `#graphql
             PERIGEE: String
             DECAYED: String
         }
+    
 
         input UserInput {
             username: String!
@@ -152,12 +155,12 @@ const typeDefs = `#graphql
             currency: String!
             description: String
             userId: ID! 
-            # paymentMethod: PaymentMethodInput!
+            paymentMethod: PaymentMethodInput
         }
 
         type Query {
-            getTleTrajectory(tle0: String!, tle1: String!, tle2: String!): Trajectory!
-            getTleData(catId: String): tleData!
+            getTleTrajectory:String
+            getTleData: String
             getPaymentIntent(amount: Float!, currency: String!): PaymentIntent!
             spaceDebris(id: ID!): SpaceDebris
             allSpaceDebris: [SpaceDebris]!
@@ -176,8 +179,8 @@ const typeDefs = `#graphql
             createSatellite(input: SatelliteInput!): Satellite
             updateSatellite(id: ID!, ownerID: ID): Satellite
             deleteSatellite(id: ID!): ID
-            registerUser(username: String!, email: String!, password: String): User
-            loginUser(email: String!, password: String!): User
+            registerUser(username: String!, email: String!, password: String): Auth
+            loginUser(email: String!, password: String!): Auth
             logoutUser: Boolean
 
         }
