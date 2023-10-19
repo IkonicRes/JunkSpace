@@ -40,7 +40,6 @@
     "react-modal": "^3.16.1",
     "tle2czml": "^1.0.0",
     "vite-plugin-cesium": "^1.2.22",
-    "vite-plugin-pwa": "^0.16.5",
     "workbox-build": "^7.0.0",
     "workbox-core": "^7.0.0",
     "workbox-precaching": "^7.0.0",
