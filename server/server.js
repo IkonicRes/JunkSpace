@@ -33,6 +33,10 @@ const server = new ApolloServer({
   resolvers
 });
 
+var corsOptions = {
+  origin: 'https://junkspace.onrender.com',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 const app = express();
 
@@ -43,7 +47,7 @@ const startServer = async () => {
 
   // app.use('/.netlify/functions/graphql', expressMiddleware(server));
   app.use('/graphql', expressMiddleware(server));
-  app.use(cors())
+  app.use(cors(corsOptions))
   // Define a route for your proxy
   app.get('/space-track/:noradCatId', async (req, res) => {
     const { noradCatId } = req.params;

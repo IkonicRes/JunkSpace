@@ -9,6 +9,9 @@ services:
     - path: /*
       name: X-Frame-Options
       value: sameorigin
+    - path: https://junkspace-zcpt.onrender.com
+      name: Referrer-Policy
+      value: origin-when-cross-origin
 # BACKEND - DB
 - type: web
   name: JunkSpace-DB
