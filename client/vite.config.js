@@ -26,8 +26,8 @@ export default defineConfig({
     proxy: {
       '/graphql': {
         target: 'https://junkspace-zcpt.onrender.com',
-        changeOrigin: true,
-        secure: false,
+        changeOrigin: false,
+        secure: true,
       },
     },
   },
