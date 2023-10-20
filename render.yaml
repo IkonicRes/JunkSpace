@@ -13,4 +13,5 @@ services:
 - type: web
   name: JunkSpace-DB
   runtime: node
+  buildCommand: npm install
   startCommand: cd server && npm run start

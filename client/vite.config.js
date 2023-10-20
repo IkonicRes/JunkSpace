@@ -21,11 +21,11 @@ export default defineConfig({
     }),
   ],
   server: {
-    port: 4000,
+    port: 10000,
     open: true,
     proxy: {
       '/graphql': {
-        target: 'http://localhost:4001',
+        target: 'https://junkspace-zcpt.onrender.com',
         changeOrigin: true,
         secure: false,
       },
