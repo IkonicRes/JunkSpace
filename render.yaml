@@ -1,24 +1,18 @@
 services:
 # STATIC SITE
 - type: web
-  name: junkspace
+  name: JunkSpace
   runtime: static
   buildCommand: npm run build
   rootDir: client
   staticPublishPath: dist
-  pullRequestPreviewsEnabled: true # optional
-  buildFilter:
-    paths:
-    - src/**/*.js
-    ignoredPaths:
-    - src/**/*.test.js
   headers:
     - path: /*
       name: X-Frame-Options
       value: sameorigin
 # BACKEND - DB
 - type: web
-  name: junkspace-db
+  name: JunkSpace-DB
   runtime: node
   rootDir: server
   startCommand: npm run start
