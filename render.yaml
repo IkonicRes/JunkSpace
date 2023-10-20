@@ -1,7 +1,7 @@
 services:
 # STATIC SITE
 - type: web
-    name: JunkSpace
+    name: junkspace
     runtime: static
     buildCommand: npm run build
     rootDir: ./client
@@ -18,7 +18,7 @@ services:
         value: sameorigin
 # BACKEND - DB
 - type: web
-  name: JunkSpace-DB
+  name: junkspace-db
   runtime: node
   rootDir: ./server
   startCommand: npm run start
