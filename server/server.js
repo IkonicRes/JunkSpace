@@ -33,12 +33,7 @@ const server = new ApolloServer({
   resolvers
 });
 
-var corsOptions = {
-  "origin": "https://junkspace.onrender.com/*",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
-}
+
 
 const app = express();
 
@@ -48,8 +43,11 @@ const startServer = async () => {
   app.use(express.json());
 
   // app.use('/.netlify/functions/graphql', expressMiddleware(server));
-  app.use('/graphql', expressMiddleware(server));
-  app.use(cors(corsOptions))
+  app.use(
+    '/graphql', 
+    cors(),
+    expressMiddleware(server)
+  );
   // Define a route for your proxy
   app.get('/space-track/:noradCatId', async (req, res) => {
     const { noradCatId } = req.params;
