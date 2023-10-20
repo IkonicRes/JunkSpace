@@ -48,6 +48,5 @@
     "workbox-window": "^7.0.0"
   },
   "devDependencies": {
-    "netlify-cli": "^16.9.0"
   }
 }
