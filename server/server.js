@@ -34,7 +34,7 @@ const server = new ApolloServer({
 });
 
 var corsOptions = {
-  "origin": "https://junkspace-zcpt.onrender.com/*",
+  "origin": "https://junkspace.onrender.com/*",
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
   "preflightContinue": false,
   "optionsSuccessStatus": 204
