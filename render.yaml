@@ -4,8 +4,7 @@ services:
   name: JunkSpace
   runtime: static
   buildCommand: npm run build
-  rootDir: client
-  staticPublishPath: dist
+  staticPublishPath: client/dist
   headers:
     - path: /*
       name: X-Frame-Options
