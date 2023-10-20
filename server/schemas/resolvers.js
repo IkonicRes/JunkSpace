@@ -1,5 +1,5 @@
 // Import Mongoose model for SpaceDebris
-const { PaymentIntent, SpaceDebris, Satellite, User } = require('../models');
+const { PaymentIntent, SpaceDebris, Satellite, User, Order } = require('../models');
 // Import bcrypt for password hashing
 const bcrypt = require('bcrypt');
 // Import jsonwebtoken for generating tokens
@@ -112,6 +112,35 @@ const resolvers = {
                 throw new Error(`Error fetching current user: ${error.message}`);
             }
         },
+        checkout: async (parent, args, context) => {
+            const url = new URL("http://localhost:4001").origin;
+            // We map through the list of products sent by the client to extract the _id of each item and create a new Order.
+            await Order.create({ products: args.products.map(({ _id }) => _id) });
+            const line_items = [];
+      
+            for (const product of args.products) {
+              line_items.push({
+                price_data: {
+                  currency: 'usd',
+                  product_data: {
+                    name: product.name,
+                  },
+                  unit_amount: product.price * 100,
+                },
+                quantity: product.purchaseQuantity,
+              });
+            }
+      
+            const session = await stripe.checkout.sessions.create({
+              payment_method_types: ['card'],
+              line_items,
+              mode: 'payment',
+              success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+              cancel_url: `${url}/`,
+            });
+      
+            return { session: session.id };
+          },
     },
 
     Mutation: {
@@ -150,6 +179,8 @@ const resolvers = {
                 throw new Error(`Error deleting space debris: ${error.message}`);
             }
         },
+        
+        
         createSatellite: async (_, { input }) => {
             try {
                 // input.PRICE = 1000

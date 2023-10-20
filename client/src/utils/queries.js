@@ -19,6 +19,14 @@ export const GET_SPACE_DEBRIS = gql`
   }
 `;
 
+export const QUERY_CHECKOUT = gql`
+  query getCheckout($products:[ProductInput]) {
+    checkout(products: $products) {
+      session
+    }
+  }
+`;
+
 export const GET_ALL_SPACE_DEBRIS = gql`
   query GetAllSpaceDebris {
     allSpaceDebris {

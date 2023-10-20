@@ -33,9 +33,8 @@ import { useQuery } from "@apollo/client";
 import { GET_ALL_SATELLITES } from "../utils/queries";
 import { CartContext } from "../utils/cartContext";
 
-const CesiumMap = ({addToCart}) => {
+const CesiumMap = ({cart, addToCart}) => {
   const ref = useRef();
-  const [cart, setCart] = useContext(CartContext);
   const { loading, error, data } = useQuery(GET_ALL_SATELLITES);
   // Cesium Ion access token
 
@@ -226,7 +225,7 @@ const CesiumMap = ({addToCart}) => {
         const matchedSat = await findSatelliteById(data.allSatellites, satelliteId)
         console.log('matchedSat: ', matchedSat)
         if (matchedSat) {
-          setCart([...cart, matchedSat]);
+          addToCart(matchedSat);
           console.log(`cart: ${cart}`)
         } else {
           console.error('Satellite not found with ID:', satelliteId);

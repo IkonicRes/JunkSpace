@@ -1,16 +1,54 @@
 .Modal {
     position: absolute;
-    inset: 244px;
-    border: 1px solid hsla(230, 99%, 58%, 0.441);
-    background: hsla(230, 99%, 58%, 0.441);
+    inset: 60px;
+    border: 1px solid hsla(230, 100%, 73%, 0.441);
+    background: hsla(230, 100%, 73%, 0.441);
     overflow: auto;
     border-radius: 4px;
     outline: none;
-    padding: 20px;
+    padding: 100px;
+    text-align: center;
+
 }
 
-/* .ReactModal__Overlay.ReactModal__Overlay--after-open {
-    position: fixed;
-    inset: 0px;
-    background-color: rgba(253, 19, 19, 0.167);
-} */
+.form-input {
+    margin: 5px;
+    background-color: hsl(234, 91%, 95%);
+    border: 0px;
+    border-radius: 3px;
+    width: 200px;
+    height: 20px;
+
+}
+
+/* first btn style */
+.btn {
+
+    background-color: rgb(0, 0, 168);
+    color: azure;
+    size: 10px;
+    margin: 20px;
+
+}
+
+/* second btn style */
+.btn2 {
+    background-color: hsla(230, 100%, 73%, 0.441);
+    border: 1px solid rgb(0, 0, 168);
+}
+
+/* hover style for second btn */
+.btn2:hover {
+    background-color: rgb(0, 0, 168);
+    color: azure;
+}
+
+/* hover style for first btn */
+.btn:hover {
+
+    background-color: rgb(43, 98, 252);
+    color: azure;
+    size: 10px;
+    margin: 20px;
+
+}

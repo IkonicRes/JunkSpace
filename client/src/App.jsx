@@ -5,7 +5,6 @@ import './App.css'; // Import your CSS file if needed
 import 'cesium/Build/Cesium/Widgets/widgets.css'; // Import CesiumJS styles
 import 'cesium/Build/Cesium/Cesium'
 import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 
 import {CartContext} from './utils/cartContext';
 import CesiumMap from './components/HomePage'; // Import your CesiumMap component
@@ -14,7 +13,7 @@ import Cart from './components/Cart'
 
 import CheckoutForm from './components/CheckoutForm'
 
-const stripePromise = loadStripe('pk_test_51O1KL4FFJxtNyW2YftNdlflwv8IG0jwBZbwNktFOyyrrJLJqT8v5YdMAjxgdspjGnAsgmaUzaDDlAmJqttpny40V00CxAiamYl');
+
 import Login from './components/Login'
 import Auth from './utils/auth'
 import SignUp from './components/SighUp'
@@ -48,11 +47,11 @@ function App() {
       <CartContext.Provider value={[cart, setCart]}>
         <ApolloProvider client={client}>
           <div className="cesium-map">
-            <CesiumMap addToCart={addToCart}/>
-            <Cart/>
+            <CesiumMap cart={cart} addToCart={addToCart}/>
               {/* <Elements stripe={stripePromise}>
                 <CheckoutForm/>
               </Elements> */}
+            <Cart/>
             <div>
               {showLogin ? (
                   <Login setShowLogin={setShowLogin}/>

@@ -150,6 +150,10 @@ const typeDefs = `#graphql
             password: String!
         }
 
+        type Checkout {
+            session: ID
+        }
+
         input PaymentIntentInput {
             amount: Float!
             currency: String!
@@ -157,7 +161,19 @@ const typeDefs = `#graphql
             userId: ID! 
             paymentMethod: PaymentMethodInput
         }
-
+        type Product {
+            _id: ID
+            name: String
+            quantity: Int
+            price: Float
+        }
+        input ProductInput {
+            _id: ID
+            purchaseQuantity: Int
+            name: String
+            price: Float
+            quantity: Int
+        } 
         type Query {
             getTleTrajectory:String
             getTleData: String
@@ -168,6 +184,7 @@ const typeDefs = `#graphql
             allSatellites: [Satellite]!
             user(id: ID!): User
             currentUser: User
+            checkout(products: [ProductInput]): Checkout
         }
 
         type Mutation {
