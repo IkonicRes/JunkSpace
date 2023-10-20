@@ -53,7 +53,7 @@ const CesiumMap = ({cart, addToCart}) => {
   //     //releaseGltfJson: false # If true, the json file will not be cached
   //     data: data.allSatellites[0]
   // })
-  const scaleFactor = 7;
+  const scaleFactor = 1;
   const findSatelliteById = (satellites, id) => {
     console.log(typeof(satellites))
     for (var i = 0; i < satellites.length; i++) {
@@ -91,7 +91,7 @@ const CesiumMap = ({cart, addToCart}) => {
     
           id: sat.NORAD_CAT_ID,
     
-          url: "/assets/sat.glb",
+          url: "http://localhost:4000/assets/sat.glb" || "https://junkspace.onrender.com/assets/sat.glb",
     
           modelMatrix: Matrix4.fromTranslationQuaternionRotationScale(
             new Cartographic.toCartesian(new Cartographic(longitude, latitude, height)),

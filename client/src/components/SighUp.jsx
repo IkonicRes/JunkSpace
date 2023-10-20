@@ -34,6 +34,7 @@ const SignUp = ({setShowLogin}) => {
       console.log(data);
       Auth.login(data.registerUser.token);
     } catch (e) {
+      console.log("ERROR")
       console.error(e);
     }
   };
