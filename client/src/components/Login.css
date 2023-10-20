@@ -2,7 +2,7 @@
     position: absolute;
     inset: 60px;
     border: 1px solid hsla(230, 100%, 73%, 0.441);
-    background: hsla(230, 100%, 73%, 0.441);
+    background: hsla(230, 100%, 8%, 0.727);
     overflow: auto;
     border-radius: 4px;
     outline: none;
@@ -10,10 +10,29 @@
     text-align: center;
 
 }
+.inputBoxes {
+    display: flex;
+    flex-direction: column;
+    align-items: ;
+}
+.loginButtons {
+    display: flex;
+    flex-direction: column;
+    
+}
+.inputForm {
+    display: flex;
+    flex-direction: space-between;
+    justify-content: center;
+}
 
+.inputBoxes * {
+    background-color: black!important;
+    margin: 1vw;
+}
 .form-input {
     margin: 5px;
-    background-color: hsl(234, 91%, 95%);
+    background-color: hsla(235, 100%, 4%, 0.737)!;
     border: 0px;
     border-radius: 3px;
     width: 200px;
@@ -21,13 +40,16 @@
 
 }
 
+.ReactModal__Overlay {
+    background-color: black!important;
+}
 /* first btn style */
-.btn {
+button {
 
-    background-color: rgb(0, 0, 168);
-    color: azure;
+    background-color: rgb(39, 39, 60);
+    color: rgb(10, 230, 230);
     size: 10px;
-    margin: 20px;
+    margin: .4vw;
 
 }
 
@@ -40,15 +62,15 @@
 /* hover style for second btn */
 .btn2:hover {
     background-color: rgb(0, 0, 168);
-    color: azure;
+    color:  rgb(10, 230, 230);
 }
 
 /* hover style for first btn */
 .btn:hover {
 
     background-color: rgb(43, 98, 252);
-    color: azure;
+    color:  rgb(10, 230, 230);
     size: 10px;
-    margin: 20px;
+    margin: .4vw;
 
 }

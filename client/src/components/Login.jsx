@@ -57,16 +57,20 @@ const Login = ({setShowLogin}) => {
       >
         <h2>Login or Register</h2>
         
-        <form onSubmit={handleFormSubmit}>
-          <input type="text" name="email" placeholder="Email" value={formState.email}
-            onChange={handleChange}
-            />
-          <input type="password" name="password" placeholder="********" value={formState.password}
-            onChange={handleChange}/>
-          <button type="submit" style={{ cursor: 'pointer' }}>Login</button>
-          <button onClick={() => setShowLogin(false)}>
-            Switch to Signup
-          </button>
+        <form className='inputForm' onSubmit={handleFormSubmit}>
+          <div className={'inputBoxes'}>
+            <input className={"inputBox"} type="text" name="email" placeholder="Email" value={formState.email}
+              onChange={handleChange}
+              />
+            <input type="password" name="password" placeholder="********" value={formState.password}
+              onChange={handleChange}/>
+          </div>
+          <div className={"loginButtons"}>
+            <button type="submit" style={{ cursor: 'pointer' }}>Login</button>
+            <button onClick={() => setShowLogin(false)}>
+              Switch to Signup
+            </button>
+          </div>
         </form> 
       </Modal>
     </div>

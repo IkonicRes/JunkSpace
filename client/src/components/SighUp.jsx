@@ -62,7 +62,8 @@ const SignUp = ({setShowLogin}) => {
               {closeModal}
             </p>
           ) : (
-            <form onSubmit={handleFormSubmit}>
+            <form className={"inputForm"} onSubmit={handleFormSubmit}>
+              <div className={'inputBoxes'}>
               <input
                 className="form-input"
                 type="text"
@@ -87,6 +88,8 @@ const SignUp = ({setShowLogin}) => {
                 value={formState.password}
                 onChange={handleChange}
               />
+              </div>
+              <div className={"loginButtons"}>
               <button
                 className="btn btn-block btn-info"
                 style={{ cursor: "pointer" }}
@@ -97,6 +100,7 @@ const SignUp = ({setShowLogin}) => {
               <button onClick={() => setShowLogin(true)}>
                 Switch to Login
               </button>
+              </div>
             </form>
           )}
           {error && (
