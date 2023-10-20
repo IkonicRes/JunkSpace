@@ -19,7 +19,7 @@ Junk Space web application is a 3D online marketplace where user can explore and
 
 ## Deployed App
 
-[View deployed app here!]([/assets/main-background.png](https://junkspace.onrender.com/))
+[View deployed app here!](https://junkspace.onrender.com/)
 
 ## Mock Up
 
