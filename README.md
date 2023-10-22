@@ -20,7 +20,7 @@ Junk Space web application is a 3D online marketplace where user can explore and
 ## Deployed App
 
 [View deployed app here!](https://junkspace.onrender.com/)
-
+When testing the deployment, the first request will start up the back end server again, as the tier of web service used to host it is free and goes idle after 15 minutes of inactivity. So please, give the back end time to start up.
 ## Mock Up
 
 <img alt="ScreenShot" src="./client/public/assets/Screenshot 2023-10-19 114522.png" />
